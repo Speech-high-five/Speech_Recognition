@@ -8,4 +8,4 @@ close all;
 clear;
 [heed, fs_heed] = audioread('sp01a_w01_heed.mp3'); 
 
-mfcc = featureExtraction(heed, fs_heed);
+mfcc = mfccFeature(heed, fs_heed, 13);

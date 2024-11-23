@@ -11,6 +11,3 @@ clear;
 testDataFile = GlobalSetting.TEST_DATA;
 load(testDataFile, 'testData');
 
-testData = testData.sampleData;
-testDataLen = length(testData);
-testData = cell2mat(testData);

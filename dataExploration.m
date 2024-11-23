@@ -48,6 +48,7 @@ numTrainFiles = numManTrain+numWomanTrain+1;
 trainData = struct('name', {}, 'path', {}, 'gender', {}, 'word', {}, 'sampleData', {}, 'sampleRate', {}');
 testData = struct('name', {}, 'path', {}, 'gender', {}, 'word', {}, 'sampleData', {}, 'sampleRate', {}');
 
+% Loop through all files to categorize them into training and testing sets.
 for i = 1:filesLen
     fileName = allFiles(i).name;
     fileNameSplited = split(fileName, "_");
@@ -89,7 +90,7 @@ for i = 1:filesLen
 end
 
 
-% Save data
+% Save the training and testing data to files
 trainDataFile = GlobalSetting.TRAIN_DATA;
 save(trainDataFile, 'trainData');
 testDataFile = GlobalSetting.TEST_DATA;

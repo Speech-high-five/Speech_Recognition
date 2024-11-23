@@ -9,7 +9,7 @@ function mfccCoeff = mfccFeature(sampleData, sampleRate, Dimension)
 % 
 % See also: List related files here
 
-% Author: Xiaoguang Liang, University of Surrey 
+% Author: Tofarati Onatunde, Xiaoguang Liang, University of Surrey 
 % Date: 2024/11/22 23:26:20 
 % Revision: 0.1 
 
