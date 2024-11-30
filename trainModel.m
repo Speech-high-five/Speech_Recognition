@@ -1,9 +1,10 @@
 %% Author: Xiaoguang Liang (PG/T - Comp Sci & Elec Eng)
+%%         Zeyad Abdelmonem (PG/T - Comp Sci & Elec Eng)
 %% University of Surrey, United Kingdom
 %% Email address: xl01339@surrey.ac.uk
+%%                za00632@surrey.ac.uk
 %% Time: 22/11/2024 17:44
-
-clc;
+%%       28/11/2024 15:55
 close all;
 clear;
 
@@ -27,7 +28,16 @@ A_init = [0.8 0.2 0.0 0.0 0.0 0.0 0.0 0.0,
           0.0 0.0 0.0 0.0 0.0 0.0 0.8 0.2, 
           0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.8];
 Pi_init = [1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0];
+eta_init = [0 0 0 0 0 0 0 0.2]';
 Ntrain=size(trainData,2);
+
+%Flag to solve underflow or not
+solveUnderflow = true;
+
+% Sorting training data to have each word files next to each other to ease
+% training
+[trainData, unique_words, counts] = sortByWords(trainData);
+
 for i=1:N
     for j=1:Ntrain
         data = trainData(:,j);
@@ -41,9 +51,19 @@ for i=1:N
         [meanData, varianceData] = meanVariance(mfccCoeff);
 
         % Compute transition probability
-        B = transitionProbability(mfccCoeff, meanData, varianceData);
+        B = transitionProbability(mfccCoeff, meanData, varianceData, N);
+        
     end
-
-
 end
+
+%Running forward algorithm
+[alphas, P_forward, scale_factors] = forward_algorithm(A_init, Pi_init, eta_init, B, unique_words, counts, solveUnderflow);
+
+%Running backward algorithm
+[betas, P_backward] = backward_algorithm(A_init, Pi_init, eta_init, B, unique_words, counts, solveUnderflow, scale_factors);
+
+%Accumlating occupation and transition liklihoods and reestimation of A, B
+%[A_new, B_new] = accumulate(alphas, betas, P_forward, A_init, B, unique_words, counts);
+
+%[X_star, Q_star] = viterbi_algorithm(A_init, Pi_init, eta_init, B);
 

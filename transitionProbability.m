@@ -1,4 +1,4 @@
-function B = transitionProbability(mfccCoeff, meanData, varianceData)
+function B = transitionProbability(mfccCoeff, meanData, varianceData, N)
   % TRANSITIONPROBABILITY Calculate the transition probability matrix.
   %
   % B = TRANSITIONPROBABILITY(MFCCCOEFF, MEANDATA, VARIANCEDATA) computes the
@@ -24,7 +24,7 @@ function B = transitionProbability(mfccCoeff, meanData, varianceData)
   
   % Get the dimensions of the input matrices
   [D, M] = size(mfccCoeff);  % D: number of MFCC coefficients, M: number of observations
-  [~, N] = size(meanData);   % N: number of states
+  % [~, N] = size(meanData);   % N: number of states
   
   % Initialize the transition probability matrix B
   B = zeros(N, M);
