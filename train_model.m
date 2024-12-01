@@ -63,7 +63,7 @@ end
 [betas, P_backward] = backward_algorithm(A_init, Pi_init, eta_init, B, unique_words, counts, solveUnderflow, scale_factors);
 
 %Accumlating occupation and transition liklihoods and reestimation of A, B
-%[A_new, B_new] = accumulate(alphas, betas, P_forward, A_init, B, unique_words, counts);
+[A_new, B_new] = accumulate(alphas, betas, P_forward, A_init, B, unique_words, counts);
 
-%[X_star, Q_star] = viterbi_algorithm(A_init, Pi_init, eta_init, B);
+[X_star, Q_star] = viterbi_algorithm(A_init, Pi_init, eta_init, B);
 
