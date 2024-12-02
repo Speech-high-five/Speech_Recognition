@@ -19,14 +19,14 @@ D = 13;
 
 % Model initialization and training
 % Based on the instructions in the assignment, we can get initial A and Pi in Table 1
-A_init = [0.8 0.2 0.0 0.0 0.0 0.0 0.0 0.0, 
-          0.0 0.8 0.2 0.0 0.0 0.0 0.0 0.0, 
-          0.0 0.0 0.8 0.2 0.0 0.0 0.0 0.0, 
-          0.0 0.0 0.0 0.8 0.2 0.0 0.0 0.0, 
-          0.0 0.0 0.0 0.0 0.8 0.2 0.0 0.0, 
-          0.0 0.0 0.0 0.0 0.0 0.8 0.2 0.0, 
-          0.0 0.0 0.0 0.0 0.0 0.0 0.8 0.2, 
-          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.8];
+A_init = [0.8 0.2 0.0 0.0 0.0 0.0 0.0 0.0,
+    0.0 0.8 0.2 0.0 0.0 0.0 0.0 0.0,
+    0.0 0.0 0.8 0.2 0.0 0.0 0.0 0.0,
+    0.0 0.0 0.0 0.8 0.2 0.0 0.0 0.0,
+    0.0 0.0 0.0 0.0 0.8 0.2 0.0 0.0,
+    0.0 0.0 0.0 0.0 0.0 0.8 0.2 0.0,
+    0.0 0.0 0.0 0.0 0.0 0.0 0.8 0.2,
+    0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.8];
 Pi_init = [1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0];
 eta_init = [0 0 0 0 0 0 0 0.2]';
 Ntrain=size(trainData,2);
@@ -52,7 +52,7 @@ solveUnderflow = true;
 
 %         % Compute transition probability
 %         B = transitionProbability(mfccCoeff, meanData, varianceData, N);
-        
+
 %     end
 % end
 
@@ -93,51 +93,51 @@ sampleRateData = {trainData.sampleRate};
 
 
 for group = 1:no_of_groups
-  word = unique_words(group);
-  % Find the index of the current gender and segment length
-  idxes = find(strcmp(wordData, word));
-  wordList = wordData(idxes);
-  sampleDataList = sampleDataset(idxes);
-  sampleRateList = sampleRateData(idxes);
-  for word = 1:no_of_words_per_group
-    sampleData = cell2mat(sampleDataList(word));
-    sampleRate = cell2mat(sampleRateList(word));
-    % Compute MFCC coefficients
-    mfccCoeff = mfccFeature(sampleData, sampleRate, D);
-    mfccCoeff=mfccCoeff';
+    word = unique_words(group);
+    % Find the index of the current gender and segment length
+    idxes = find(strcmp(wordData, word));
+    wordList = wordData(idxes);
+    sampleDataList = sampleDataset(idxes);
+    sampleRateList = sampleRateData(idxes);
+    for word = 1:no_of_words_per_group
+        sampleData = cell2mat(sampleDataList(word));
+        sampleRate = cell2mat(sampleRateList(word));
+        % Compute MFCC coefficients
+        mfccCoeff = mfccFeature(sampleData, sampleRate, D);
+        mfccCoeff=mfccCoeff';
 
-    % Compute mean and variance
-    [meanData, varianceData] = meanVariance(mfccCoeff);
+        % Compute mean and variance
+        [meanData, varianceData] = meanVariance(mfccCoeff);
 
-    % Compute transition probability
-    B = transitionProbability(mfccCoeff, meanData, varianceData, N);
-      %Initialize the first time step
-      for state_order = 1:no_of_states
-          alphas(group, word, state_order, 1) = Pi_init(state_order) * B(state_order, 1);
-      end
+        % Compute transition probability
+        B = transitionProbability(mfccCoeff, meanData, varianceData);
+        %Initialize the first time step
+        for state_order = 1:no_of_states
+            alphas(group, word, state_order, 1) = Pi_init(state_order) * B(state_order, 1);
+        end
 
-      if solveUnderflow
-          scale_factors(1) = 1/sum(alphas(group, word, :, 1));
-          alphas(group, word, :, 1) = scale_factors(1) * alphas(group, word, :, 1);
-      end
+        if solveUnderflow
+            scale_factors(1) = 1/sum(alphas(group, word, :, 1));
+            alphas(group, word, :, 1) = scale_factors(1) * alphas(group, word, :, 1);
+        end
 
-      %Recursion
-      for T = 2:T_total
-          for j = 1:no_of_states
-              sum_ = 0;
-              for i = 1:no_of_states
-              sum_ = sum_ + alphas(group, word, i, T-1) * A_init(i,j);
-              end
-              alphas(group, word, j, T) = sum_ * B(j,T);
-          end
+        %Recursion
+        for T = 2:T_total
+            for j = 1:no_of_states
+                sum_ = 0;
+                for i = 1:no_of_states
+                    sum_ = sum_ + alphas(group, word, i, T-1) * A_init(i,j);
+                end
+                alphas(group, word, j, T) = sum_ * B(j,T);
+            end
 
-          if solveUnderflow
-              scale_factors(T) = 1 / sum(alphas(group, word, :, T));
-              alphas(group, word, :, T) = scale_factors(T) * alphas(group, word, :, T);
-          end
-      end
-      P_forward(group, word) = sum(squeeze(alphas(group, word, :, T_total)) .* eta_init);
-  end
+            if solveUnderflow
+                scale_factors(T) = 1 / sum(alphas(group, word, :, T));
+                alphas(group, word, :, T) = scale_factors(T) * alphas(group, word, :, T);
+            end
+        end
+        P_forward(group, word) = sum(squeeze(alphas(group, word, :, T_total)) .* eta_init);
+    end
 end
 
 
