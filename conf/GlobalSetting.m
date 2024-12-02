@@ -4,8 +4,10 @@ classdef GlobalSetting
     
     properties(Constant=true)
         DATASET_FOLDER = 'data/EEEM030cw2-DevelopmentSet-2024';
+        EVALUATION_FOLDER = 'data/EEEM030cw2-EvaluationSet-2024';
         TRAIN_DATA = 'data/trainData.mat';
         TEST_DATA = 'data/testData.mat';
+        EVALUATION_DATA = 'data/evaluationData.mat';
     end
     
     methods
