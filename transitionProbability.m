@@ -1,4 +1,4 @@
-function B = transitionProbability(mfccCoeff, meanData, varianceData, N)
+function B = transitionProbability(x,u_x,var_x)
   % TRANSITIONPROBABILITY Calculate the transition probability matrix.
   %
   % B = TRANSITIONPROBABILITY(MFCCCOEFF, MEANDATA, VARIANCEDATA) computes the
@@ -23,27 +23,38 @@ function B = transitionProbability(mfccCoeff, meanData, varianceData, N)
   % Revision: 0.1
   
   % Get the dimensions of the input matrices
-  [D, M] = size(mfccCoeff);  % D: number of MFCC coefficients, M: number of observations
-  % [~, N] = size(meanData);   % N: number of states
-  
-  % Initialize the transition probability matrix B
-  B = zeros(N, M);
-  
-  % Loop through each state and each observation to calculate the transition probability
-  for j = 1:N
-      for t = 1:M
-          % Calculate the sum of squared differences divided by twice the variance
-          sumRes = sum(((mfccCoeff(:, t) - meanData(:, j)).^2) ./ (2 * varianceData(:, j)));
-          
-          % Calculate the product of the variance values
-          productRes = prod(varianceData(:, j));
-          
-          % Compute the transition probability using the Gaussian distribution formula
-          B(j, t) = (exp(-sumRes) / ((2 * pi)^(D / 2) * sqrt(productRes)));
-      end
-  end
-  
-  % Transpose the matrix B to match the desired output format
-  B = B';
-  
-  end
+  % [D, M] = size(mfccCoeff);  % D: number of MFCC coefficients, M: number of observations
+  % % [~, N] = size(meanData);   % N: number of states
+  % 
+  % % Initialize the transition probability matrix B
+  % B = zeros(N, M);
+  % 
+  % % Loop through each state and each observation to calculate the transition probability
+  % for j = 1:N
+  %     for t = 1:M
+  %         % Calculate the sum of squared differences divided by twice the variance
+  %         sumRes = sum(((mfccCoeff(:, t) - meanData(:, j)).^2) ./ (2 * varianceData(:, j)));
+  % 
+  %         % Calculate the product of the variance values
+  %         productRes = prod(varianceData(:, j));
+  % 
+  %         % Compute the transition probability using the Gaussian distribution formula
+  %         B(j, t) = (exp(-sumRes) / ((2 * pi)^(D / 2) * sqrt(productRes)));
+  %     end
+  % end
+  % 
+  % % Transpose the matrix B to match the desired output format
+  % B = B';
+  % 
+  % end
+[D,M]=size(x);
+[W,N]=size(u_x);
+    for j=1:N
+         for t=1:M             
+               s_1=sum(((x(:,t)-u_x(:,j))).^2./(2*var_x(:,j)));
+               s_2=(prod(var_x(:,j)));
+               B(j,t)=(exp(-s_1)/((2*pi)^(D/2)*sqrt(s_2)));
+          end
+    end
+    B=B';
+end
