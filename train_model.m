@@ -23,6 +23,7 @@ wordData = {trainData.word};
 % sampleDataset = {trainData.sampleData};
 % sampleRateData = {trainData.sampleRate};
 
+% Run training with different group data based on different word.
 for i=1:words_len
     word = WORDS{i};
     % Find the index of word
