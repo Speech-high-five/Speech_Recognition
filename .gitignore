@@ -163,7 +163,9 @@ cython_debug/
 .history
 .DS_Store
 .vscode
-data
+data/EEEM030cw2-DevelopmentSet-2024
+data/EEEM030cw2-EvaluationSet-2024
+!data/*.mat
 *.asv
 document/._wordcount_selection.tex
 document/*.gz
