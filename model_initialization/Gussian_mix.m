@@ -1,4 +1,4 @@
-function [mix] = Gussian_mix(vector, M)
+function [mix] = Gussian_mix(vector, M, nn)
 % GUSSIAN_MIX Summary of this function goes here
 %
 % [OUTPUTARGS] = GUSSIAN_MIX(INPUTARGS) Explain usage here
@@ -13,14 +13,9 @@ function [mix] = Gussian_mix(vector, M)
 % Date: 2024/12/03 19:56:54
 % Revision: 0.1
 
-[mean esq nn] = kmeans(vector,M);
-
-% Calculate the standard deviation of each cluster, form a diagonal matrix, and retain only the elements on the diagonal.
-for j = 1:M
-    ind = find(j==nn);
-    tmp = vector(ind,:);
-    var(j,:) = std(tmp);
-end
+[mean, var] = meanVariance(vector');
+mean = mean';
+var = var';
 
 % Calculate the number of elements in each cluster and normalize them to obtain the weights for each PDF.
 weight = zeros(M,1);
@@ -31,9 +26,8 @@ weight = weight/sum(weight);
 
 % Save the results.
 mix.M      = M;
-mix.mean   = mean;		% M*SIZE
-mix.var    = var.^2;	% M*SIZE
-mix.weight = weight;	% M*1
-
+mix.mean   = mean;
+mix.var    = var;
+mix.weight = weight;
 
 end
