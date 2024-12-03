@@ -31,7 +31,7 @@ for i=1:words_len
 
     samples = trainData(idxes);
     % The number of pdf in each state
-    PDFS = [N N N N N N N N];
+    PDFS = repmat(13, 1, 8);
     hmm{i}=train(samples,PDFS);
 
 end

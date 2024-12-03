@@ -21,16 +21,10 @@ hmm.N = N;
 hmm.M = M;
 
 % Initial state probabilities
-hmm.init    = zeros(N,1);
-hmm.init(1) = 1;
+hmm.init = GlobalSetting.Pi_init';
 
-% Transition probabilities
-hmm.trans=zeros(N,N);
-for i=1:N-1
-	hmm.trans(i,i)   = 0.5;
-	hmm.trans(i,i+1) = 0.5;
-end
-hmm.trans(N,N) = 1;
+% Transition probabilities A
+hmm.trans = GlobalSetting.A_init;
 
 % Make cluster for the data
 % Make segements
