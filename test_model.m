@@ -50,7 +50,7 @@ for i=1:Ndata
         p = p+1;
         fprintf('The recognition is correct\n')
     else
-      n = n+1;
+        n = n+1;
         fprintf('The recognition is incorrect\n')
     end
 

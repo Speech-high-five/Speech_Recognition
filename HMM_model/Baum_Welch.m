@@ -51,31 +51,31 @@ end
 disp('Re-estimate the parameters of Gaussian mixture...')
 for l = 1:N
     for j = 1:hmm.M(l)
-    	% fprintf('%d,%d ',l,j)
+        % fprintf('%d,%d ',l,j)
         % Compute mean and variance of pdf
-    	nommean = zeros(1,SIZE);
-    	nomvar  = zeros(1,SIZE);
-    	denom   = 0;
-    	for k = 1:K
-    		T = size(samples(k).data,1);
-    		for t = 1:T
-    			x	    = samples(k).data(t,:);
-    			nommean = nommean + param(k).gama(t,l,j) * x;
-    			nomvar  = nomvar  + param(k).gama(t,l,j) * (x-mix(l).mean(j,:)).^2;
-    			denom   = denom   + param(k).gama(t,l,j);
-    		end
-    	end
-    	hmm.mix(l).mean(j,:) = nommean / denom;
-    	hmm.mix(l).var (j,:) = nomvar  / denom;
+        nommean = zeros(1,SIZE);
+        nomvar  = zeros(1,SIZE);
+        denom   = 0;
+        for k = 1:K
+            T = size(samples(k).data,1);
+            for t = 1:T
+                x	    = samples(k).data(t,:);
+                nommean = nommean + param(k).gama(t,l,j) * x;
+                nomvar  = nomvar  + param(k).gama(t,l,j) * (x-mix(l).mean(j,:)).^2;
+                denom   = denom   + param(k).gama(t,l,j);
+            end
+        end
+        hmm.mix(l).mean(j,:) = nommean / denom;
+        hmm.mix(l).var (j,:) = nomvar  / denom;
 
         % Compute the weight of pdf
-    	nom   = 0;
-    	denom = 0;
-    	for k = 1:K
-    		tmp = param(k).gama(:,l,j);    nom   = nom   + sum(tmp(:));
-    		tmp = param(k).gama(:,l,:);    denom = denom + sum(tmp(:));
-    	end
-    	hmm.mix(l).weight(j) = nom/denom;
+        nom   = 0;
+        denom = 0;
+        for k = 1:K
+            tmp = param(k).gama(:,l,j);    nom   = nom   + sum(tmp(:));
+            tmp = param(k).gama(:,l,:);    denom = denom + sum(tmp(:));
+        end
+        hmm.mix(l).weight(j) = nom/denom;
     end
     % fprintf('\n')
 end
