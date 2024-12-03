@@ -1,0 +1,57 @@
+function [hmm, pout] = train(samples, M)
+% TRAIN Summary of this function goes here
+% 
+% [OUTPUTARGS] = TRAIN(INPUTARGS) Explain usage here
+% 
+% Examples: 
+% 
+% Provide sample usage code here
+% 
+% See also: List related files here
+
+% Author: Xiaoguang Liang, University of Surrey 
+% Date: 2024/12/03 00:04:26 
+% Revision: 0.1 
+
+D = GlobalSetting.D;
+K   = length(samples);
+
+% Calculate MFCCs
+disp('Calculating MFCCs...');
+for k = 1:K
+	if isfield(samples(k),'data') & ~isempty(samples(k).data)
+		continue;
+	else
+    sampleData = samples(k).sampleData;
+    sampleRate = samples(k).sampleRate;
+    mfccCoeff = mfccFeature(sampleData, sampleRate, D);
+    % mfccCoeff=mfccCoeff';
+    samples(k).data = mfccCoeff;
+	end
+end
+
+hmm = init_hmm(samples, M);
+
+for loop = 1:GlobalSetting.EPOCHS
+  fprintf('Starting Epoch %d ...', loop)
+	hmm = Baum_Welch(hmm, samples);
+
+  % Compute total output probability
+	pout(loop)=0;
+	for k = 1:K
+		pout(loop) = pout(loop) + viterbi(hmm, samples(k).data);
+	end
+
+	fprintf('Sum of the output probabilities (log)=%d\n', pout(loop))
+
+  % Compare the distance between two HMMs.
+	if loop>1
+		if abs((pout(loop)-pout(loop-1))/pout(loop)) < 5e-6
+			fprintf('The model converges!\n');
+			return
+		end
+	end
+end
+
+disp('After %d iterations without convergence, exit.', GlobalSetting.EPOCHS);
+
