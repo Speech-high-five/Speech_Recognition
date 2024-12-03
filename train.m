@@ -25,7 +25,6 @@ for k = 1:K
         sampleData = samples(k).sampleData;
         sampleRate = samples(k).sampleRate;
         mfccCoeff = mfccFeature(sampleData, sampleRate, D);
-        % mfccCoeff=mfccCoeff';
         samples(k).data = mfccCoeff;
     end
 end

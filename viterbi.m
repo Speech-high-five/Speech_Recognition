@@ -44,7 +44,7 @@ q     = zeros(T,1);
 % t=1
 x = O(1,:);
 for i = 1:N
-    delta(1,i) = init(i) + log(mixture(mix(i),x));
+    delta(1,i) = init(i) + log(compute_probability(mix(i),x));
 end
 
 % t=2:T
@@ -52,7 +52,7 @@ for t = 2:T
     for j = 1:N
     	[delta(t,j) fai(t,j)] = max(delta(t-1,:) + trans(:,j)');
     	x = O(t,:);
-    	delta(t,j) = delta(t,j) + log(mixture(mix(j),x));
+    	delta(t,j) = delta(t,j) + log(compute_probability(mix(j),x));
     end
 end
 

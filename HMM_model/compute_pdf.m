@@ -1,4 +1,4 @@
-function [p] = get_pdf(m, v, x)
+function [p] = compute_pdf(m, v, x)
 % GET_PDF Summary of this function goes here
 %
 % [OUTPUTARGS] = GET_PDF(INPUTARGS) Explain usage here

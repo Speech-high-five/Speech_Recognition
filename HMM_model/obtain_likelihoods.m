@@ -1,4 +1,4 @@
-function [param] = get_param(hmm, O)
+function [param] = obtain_likelihoods(hmm, O)
 % GET_PARAM Summary of this function goes here
 %
 % [OUTPUTARGS] = GET_PARAM(INPUTARGS) Explain usage here
@@ -30,7 +30,7 @@ alpha = zeros(T,N);
 % The forward probability at t = 1.
 x = O(1,:);
 for i = 1:N
-    alpha(1,i) = init(i) * mixture(mix(i),x);
+    alpha(1,i) = init(i) * compute_probability(mix(i),x);
 end
 
 % Initialize the forward probability for t = 1.
@@ -45,8 +45,9 @@ for t = 2:T
         for j = 1:N
             temp = temp + alpha(t-1,j) * trans(j,i);
         end
-        alpha(t,i) = temp * mixture(mix(i),O(t,:));
+        alpha(t,i) = temp * compute_probability(mix(i),O(t,:));
     end
+    % Scale the forward probabilities.
     c(t) = 1/sum(alpha(t,:));
     alpha(t,:) = c(t)*alpha(t,:);
 end
@@ -64,10 +65,12 @@ for t = T-1:-1:1
     x = O(t+1,:);
     for i = 1:N
     	for j = 1:N
-    		beta(t,i) = beta(t,i) + beta(t+1,j) * mixture(mix(j),x) * trans(i,j);
+    		beta(t,i) = beta(t,i) + beta(t+1,j) * compute_probability(mix(j),x) * trans(i,j);
     	end
     end
     beta(t,:) = c(t) * beta(t,:);
+    % Scale the backward probabilities
+    beta(t,:) = beta(t,:)/sum( beta(t,:));
 end
 
 %¹The transition probability ksai.
@@ -76,7 +79,7 @@ for t = 1:T-1
     denom = sum(alpha(t,:).*beta(t,:));
     for i = 1:N-1
     	for j = i:i+1
-    		nom = alpha(t,i) * trans(i,j) * mixture(mix(j),O(t+1,:)) * beta(t+1,j);
+    		nom = alpha(t,i) * trans(i,j) * compute_probability(mix(j),O(t+1,:)) * beta(t+1,j);
     		ksai(t,i,j) = c(t) * nom/denom;
     	end
     end
@@ -95,7 +98,7 @@ for t = 1:T
         for j = 1:mix(l).M
             m = mix(l).mean(j,:);
             v = mix(l).var (j,:);
-            prob(j) = mix(l).weight(j) * get_pdf(m, v, x);
+            prob(j) = mix(l).weight(j) * compute_pdf(m, v, x);
         end
         tmp  = pab(l)/sum(pab);
         for j = 1:mix(l).M

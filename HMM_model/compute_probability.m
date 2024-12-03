@@ -1,4 +1,4 @@
-function [prob] = mixture(mix, x)
+function [prob] = compute_probability(mix, x)
 % MIXTURE Summary of this function goes here
 %
 % [OUTPUTARGS] = MIXTURE(INPUTARGS) Explain usage here
@@ -18,7 +18,7 @@ for j = 1:mix.M
     m = mix.mean(j,:);
     v = mix.var (j,:);
     w = mix.weight(j);
-    prob = prob + w * get_pdf(m, v, x);
+    prob = prob + w * compute_pdf(m, v, x);
 end
 
 % Add realmin to prevent overflow when calculating log(prob) in viterbi.m.
