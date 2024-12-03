@@ -46,7 +46,7 @@ for loop = 1:GlobalSetting.EPOCHS
 
     % Compare the distance between two HMMs.
     if loop>1
-        if abs((pout(loop)-pout(loop-1))/pout(loop)) < 2e-5
+        if abs((pout(loop)-pout(loop-1))/pout(loop)) < 5e-6
             fprintf('The model converges!\n');
             return
         end

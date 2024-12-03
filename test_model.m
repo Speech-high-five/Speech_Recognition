@@ -45,6 +45,7 @@ for i=1:Ndata
     [d,n] = max(pout);
 
     word_res = WORDS{n};
+    evaluationData(i).prediction = word_res;
     fprintf('The NO. %d word is recognized as %s\n', i-1,word_res)
     if strcmp(word_res, true_word)
         p = p+1;
@@ -58,4 +59,9 @@ end
 
 accuracy = p/Ndata;
 fprintf('The recognition rate is %f\n', accuracy)
+
+% Save the recognition result
+file = GlobalSetting.RECOGNITION_RESULT;
+save(file, 'evaluationData');
+
 

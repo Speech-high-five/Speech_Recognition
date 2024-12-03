@@ -10,12 +10,14 @@ classdef GlobalSetting
         TEST_DATA = 'data/testData.mat';
         EVALUATION_DATA = 'data/evaluationData.mat';
         HMM_MODEL = 'data/hmm_models.mat'
+        RECOGNITION_RESULT = 'data/recognition_result.mat'
+        GRAPH_PATH = 'data/graphs'
 
         % words for speech recognition
         WORDS = {'heed', 'hid', 'head', 'had', 'hard', 'hud', 'hod', 'hoard', 'hood', 'whod', 'heard'}
 
         % Epochs for training
-        EPOCHS = 1
+        EPOCHS = 15
 
         % HMM parameters
         % The state of HMM model

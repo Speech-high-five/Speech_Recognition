@@ -20,12 +20,11 @@ WORDS = GlobalSetting.WORDS;
 words_len = length(WORDS);
 
 wordData = {trainData.word};
-% sampleDataset = {trainData.sampleData};
-% sampleRateData = {trainData.sampleRate};
 
 % Run training with different group data based on different word.
 for i=1:words_len
     word = WORDS{i};
+    fprintf('Start training %s group data', word);
     % Find the index of word
     idxes = find(strcmp(wordData, word));
 
