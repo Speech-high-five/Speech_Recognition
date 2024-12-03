@@ -43,7 +43,8 @@ for i = 1:N
         segment_data = samples(k).data(seg1:seg2,:);
         vector = [vector ; segment_data];
     end
-    mix(i) = Gussian_mix(vector, M(i));
+    mix(i) = Gussian_mix_with_kmeans(vector, M(i));
+    % mix(i) = Gussian_mix(vector, M(i));
 end
 
 hmm.mix = mix;

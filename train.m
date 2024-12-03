@@ -30,8 +30,7 @@ for k = 1:K
     end
 end
 
-% hmm = init_hmm(samples, M);
-hmm = init_hmm_with_kmeans(samples, M);
+hmm = init_hmm(samples, M);
 
 for loop = 1:GlobalSetting.EPOCHS
     fprintf('Starting Epoch %d ...', loop)
