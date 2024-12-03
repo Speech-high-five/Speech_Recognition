@@ -20,15 +20,14 @@ WORDS = GlobalSetting.WORDS;
 words_len = length(WORDS);
 
 wordData = {trainData.word};
-sampleDataset = {trainData.sampleData};
-sampleRateData = {trainData.sampleRate};
-sampleRate = 16000;
+% sampleDataset = {trainData.sampleData};
+% sampleRateData = {trainData.sampleRate};
 
 for i=1:words_len
     word = WORDS{i};
     % Find the index of word
     idxes = find(strcmp(wordData, word));
-    
+
     samples = trainData(idxes);
     % The number of pdf in each state
     PDFS = [N N N N N N N N];

@@ -53,5 +53,5 @@ for loop = 1:GlobalSetting.EPOCHS
 	end
 end
 
-disp('After %d iterations without convergence, exit.', GlobalSetting.EPOCHS);
+fprintf('After %d iterations without convergence, exit.\n', GlobalSetting.EPOCHS);
 
