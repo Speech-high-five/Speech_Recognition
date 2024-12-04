@@ -12,7 +12,7 @@ classdef GlobalSetting
         HMM_MODEL = 'data/hmm_models.mat'
         RECOGNITION_RESULT = 'data/recognition_result.mat'
         GRAPH_PATH = 'data/graphs'
-        REPLACE_NAN = 0;
+        DATA_AUGMENTATION = 'data/data_augmentation'
 
         % words for speech recognition
         WORDS = {'heed', 'hid', 'head', 'had', 'hard', 'hud', 'hod', 'hoard', 'hood', 'whod', 'heard'}
@@ -37,6 +37,9 @@ classdef GlobalSetting
             0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.8];
         Pi_init = [1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0];
         eta_init = [0 0 0 0 0 0 0 0.2]';
+
+        % Replace NaNs with 0
+        REPLACE_NAN = 0;
 
     end
 
