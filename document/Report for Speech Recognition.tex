@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm} % AMS styles for extra equation formatting
+\usepackage{graphicx} % for including graphics files
+\usepackage{subfig} % for subfigures
+\usepackage[numbers,sort]{natbib} % for better references control
+\usepackage{hyperref} % for hyperlinks within the paper and references
+\usepackage{fontspec}  % Allows for system fonts
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}  % Set margins on all sides
+\usepackage{setspace} % for line spacing
+\usepackage{appendix} % for the appendices
+\usepackage{listings} % for code
+\usepackage{xcolor} % for color
+\usepackage{url,textcomp}
+\usepackage{matlab-prettifier}
+\usepackage{tabularx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hypersetup{colorlinks=true, linkcolor=blue,  anchorcolor=blue,
+citecolor=blue, filecolor=blue, menucolor=blue, pagecolor=blue,
+urlcolor=blue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\todo}[1]{\vspace{5 mm}\par \noindent
+\marginpar{\textsc{Todo}}
+\framebox{\begin{minipage}[c]{0.90 \textwidth}
+\tt \flushleft #1 \end{minipage}}\vspace{5 mm}\par}
+\newcommand{\setParDis}{\setlength {\parskip} {0.2cm} } % for 0.3cm spacing
+\newcommand{\setParDef}{\setlength {\parskip} {0pt} } % for 0 spacing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\graphicspath{{graphics/}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+
+%\renewcommand{\qedsymbol}{$\blacksquare$} % for filled square at end of proof
+%\numberwithin{equation}{section} % for the 1.1, 1.2 equation number style
+%\setlength{\parindent}{0em} % don't indent paragraphs
+%\setlength{\parskip}{1em} % add spacing between paragraphs
+%\linespread{1.6} % double-spacing
+
+\setmainfont{Arial}
+% \doublespacing
+\onehalfspacing
+\setcounter{secnumdepth}{3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{%
+Report for Speech Recognition \\
+\large\itshape{EEEM030 - Speech Recognition - Group Assignment 2}}
+\author{\normalsize\slshape{Xiaoguang Liang}}
+\date{\normalsize\slshape\today}
+\maketitle
+
+
+% Suppress any floats (figures, tables) from appearing on the next page
+\suppressfloats
+
+\tableofcontents
+
+\begin{abstract}
+
+
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+\setParDis
+
+This report is structured as follows: \textit{Section 2} analyses the kinematics of the Trossen PincherX-100 Robot. \textit{Section 3} compares the differences between Trossen PincherX-100 Robot and TiRobot II. \textit{Section 4} explores the applications of TiRobot II in detail. Finally, conclusions are drawn in \textit{Section 5}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{MFCC acoustic features}
+
+
+\section{Model initialization}
+
+
+\section{Model training with HMMs}
+
+
+\section{Evaluation}
+
+
+\section{Conclusion}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\doi}[1]{DOI: \href{http://dx.doi.org/#1}{\nolinkurl{#1}}}
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
