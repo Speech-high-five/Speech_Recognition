@@ -17,7 +17,7 @@ classdef GlobalSetting
         WORDS = {'heed', 'hid', 'head', 'had', 'hard', 'hud', 'hod', 'hoard', 'hood', 'whod', 'heard'}
 
         % Epochs for training
-        EPOCHS = 20
+        EPOCHS = 3
 
         % HMM parameters
         % The state of HMM model

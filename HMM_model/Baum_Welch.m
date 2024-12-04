@@ -20,16 +20,14 @@ N = length(mix);
 % Number of samples
 K = length(samples);
 % Parameter dimension
-SIZE = size(samples(1).data,2);
+DIM = GlobalSetting.D;
 
-% Compute forward and backward probabilities
+% Accumulate the Forward and Backward Likelihoods and  Occupation Likelihoods.
 for k = 1:K
-    % fprintf('%d ',k)
     likelihoods(k) = obtain_likelihoods(hmm, samples(k).data);
 end
-% fprintf('\n')
 
-% Re-estimate transition probability matrix A
+% Re-estimate transition probability matrix A 
 disp('Re-estimate transition probability matrix A...')
 for i = 1:N-1
     denom = 0;
@@ -51,10 +49,9 @@ end
 disp('Re-estimate the parameters of Gaussian mixture...')
 for l = 1:N
     for j = 1:hmm.M(l)
-        % fprintf('%d,%d ',l,j)
         % Compute mean and variance of pdf
-        nommean = zeros(1,SIZE);
-        nomvar  = zeros(1,SIZE);
+        nommean = zeros(1,DIM);
+        nomvar  = zeros(1,DIM);
         denom   = 0;
         for k = 1:K
             T = size(samples(k).data,1);
@@ -77,5 +74,4 @@ for l = 1:N
         end
         hmm.mix(l).weight(j) = nom/denom;
     end
-    % fprintf('\n')
 end

@@ -1,4 +1,4 @@
-function [param] = obtain_likelihoods(hmm, O)
+function [likelihoods] = obtain_likelihoods(hmm, observations)
 % GET_PARAM Summary of this function goes here
 %
 % [OUTPUTARGS] = GET_PARAM(INPUTARGS) Explain usage here
@@ -14,7 +14,7 @@ function [param] = obtain_likelihoods(hmm, O)
 % Revision: 0.1
 
 % The length of sequence
-T = size(O,1);
+T = size(observations,1);
 % Initial Pi
 init  = hmm.init;
 % Initial A
@@ -25,91 +25,20 @@ mix   = hmm.mix;
 N     = hmm.N;
 
 % Given the observation sequence, calculate the forward probability.
-alpha = zeros(T,N);
-
-% The forward probability at t = 1.
-x = O(1,:);
-for i = 1:N
-    alpha(1,i) = init(i) * compute_probability(mix(i),x);
-end
-
-% Initialize the forward probability for t = 1.
-c    = zeros(T,1);
-c(1) = 1/sum(alpha(1,:));
-alpha(1,:) = c(1) * alpha(1,:);
-
-% The forward probabilities and initialization for t = 2 to T.
-for t = 2:T
-    for i = 1:N
-        temp = 0;
-        for j = 1:N
-            temp = temp + alpha(t-1,j) * trans(j,i);
-        end
-        alpha(t,i) = temp * compute_probability(mix(i),O(t,:));
-    end
-    % Scale the forward probabilities.
-    c(t) = 1/sum(alpha(t,:));
-    alpha(t,:) = c(t)*alpha(t,:);
-end
+[alpha, c] = compute_forward_likelihood(T, N, init, mix, trans, observations);
 
 % Given the observation sequence O, calculate the backward probabilities beta.
-beta = zeros(T,N);
+[beta] = compute_backward_likelihood(T, N, c, mix, trans, observations);
 
-% The backward probability at t = T and its normalization.
-for l = 1:N
-    beta(T,l) = c(T);
-end
+% The transition probability ksai, i.e. A.
+[ksai] = compute_transition_likelihood(T, N, c, mix, trans, observations, alpha, beta);
 
-% The backward probabilities from t = T -1 to t = 1 and their normalization.
-for t = T-1:-1:1
-    x = O(t+1,:);
-    for i = 1:N
-    	for j = 1:N
-    		beta(t,i) = beta(t,i) + beta(t+1,j) * compute_probability(mix(j),x) * trans(i,j);
-    	end
-    end
-    beta(t,:) = c(t) * beta(t,:);
-    % Scale the backward probabilities
-    beta(t,:) = beta(t,:)/sum( beta(t,:));
-end
+% The mixture output probability: gama, i.e B.
+[gama] = compute_occupation_likelihood(T, N, mix, hmm, observations, alpha, beta);
 
-%¹The transition probability ksai.
-ksai = zeros(T-1,N,N);
-for t = 1:T-1
-    denom = sum(alpha(t,:).*beta(t,:));
-    for i = 1:N-1
-    	for j = i:i+1
-    		nom = alpha(t,i) * trans(i,j) * compute_probability(mix(j),O(t+1,:)) * beta(t+1,j);
-    		ksai(t,i,j) = c(t) * nom/denom;
-    	end
-    end
-end
-
-% The mixture output probability: gama.
-gama = zeros(T,N,max(hmm.M));
-for t = 1:T
-    pab = zeros(N,1);
-    for l = 1:N
-        pab(l) = alpha(t,l) * beta(t,l);
-    end
-    x = O(t,:);
-    for l = 1:N
-        prob = zeros(mix(l).M,1);
-        for j = 1:mix(l).M
-            m = mix(l).mean(j,:);
-            v = mix(l).var (j,:);
-            prob(j) = mix(l).weight(j) * compute_pdf(m, v, x);
-        end
-        tmp  = pab(l)/sum(pab);
-        for j = 1:mix(l).M
-            gama(t,l,j) = tmp * prob(j)/sum(prob);
-        end
-    end
-end
-
-param.c     = c;
-param.alpha = alpha;
-param.beta  = beta;
-param.ksai  = ksai;
-param.gama  = gama;
+likelihoods.c     = c;
+likelihoods.alpha = alpha;
+likelihoods.beta  = beta;
+likelihoods.ksai  = ksai;
+likelihoods.gama  = gama;
 

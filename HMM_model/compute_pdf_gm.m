@@ -40,5 +40,4 @@ p = norm_factor * exp(exponent);
 % Avoid probabilities smaller than realmin
 p = max(p, realmin); % Ensure p is not smaller than MATLAB's smallest positive float
 
-
 end
