@@ -165,6 +165,7 @@ cython_debug/
 .vscode
 data/EEEM030cw2-DevelopmentSet-2024
 data/EEEM030cw2-EvaluationSet-2024
+data/data_augmentation
 !data/*.mat
 *.asv
 document/._wordcount_selection.tex
