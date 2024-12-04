@@ -41,4 +41,7 @@ for t = 2:T
     alpha(t,:) = c(t)*alpha(t,:);
 end
 
+% Avoid getting NaN
+c(isnan(c))=GlobalSetting.REPLACE_NAN;
+alpha(isnan(alpha))=GlobalSetting.REPLACE_NAN;
 end

@@ -40,4 +40,7 @@ p = norm_factor * exp(exponent);
 % Avoid probabilities smaller than realmin
 p = max(p, realmin); % Ensure p is not smaller than MATLAB's smallest positive float
 
+% Avoid getting NaN
+if isnan(p), p=0; end
+
 end

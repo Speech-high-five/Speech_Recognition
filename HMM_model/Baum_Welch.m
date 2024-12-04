@@ -45,6 +45,10 @@ for i = 1:N-1
     end
 end
 
+
+% Avoid getting NaN
+hmm.trans(isnan(hmm.trans))=0;
+
 % Re-estimate the parameters of Gaussian mixture
 disp('Re-estimate the parameters of Gaussian mixture...')
 for l = 1:N
@@ -56,7 +60,7 @@ for l = 1:N
         for k = 1:K
             T = size(samples(k).data,1);
             for t = 1:T
-                x	    = samples(k).data(t,:);
+                x = samples(k).data(t,:);
                 nommean = nommean + likelihoods(k).gama(t,l,j) * x;
                 nomvar  = nomvar  + likelihoods(k).gama(t,l,j) * (x-mix(l).mean(j,:)).^2;
                 denom   = denom   + likelihoods(k).gama(t,l,j);
@@ -69,9 +73,16 @@ for l = 1:N
         nom   = 0;
         denom = 0;
         for k = 1:K
-            tmp = likelihoods(k).gama(:,l,j);    nom   = nom   + sum(tmp(:));
-            tmp = likelihoods(k).gama(:,l,:);    denom = denom + sum(tmp(:));
+            tmp = likelihoods(k).gama(:,l,j);
+            nom = nom + sum(tmp(:));
+            tmp = likelihoods(k).gama(:,l,:);
+            denom = denom + sum(tmp(:));
         end
-        hmm.mix(l).weight(j) = nom/denom;
+        % Avoid that weight is NaN
+        if denom==0, weight=0; end
+        weight = nom/denom;
+        % Avoid probabilities smaller than realmin
+        weight = max(weight, realmin); 
+        hmm.mix(l).weight(j) = weight;
     end
 end

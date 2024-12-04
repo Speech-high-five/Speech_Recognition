@@ -15,4 +15,7 @@ function [p] = compute_pdf(m, v, x)
 
 p = (2 * pi * prod(v)) ^ -0.5 * exp(-0.5 * (x-m) ./ v * (x-m)');
 
+% Avoid getting NaN
+if isnan(p), p=GlobalSetting.REPLACE_NAN; end
+
 end

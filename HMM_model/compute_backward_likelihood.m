@@ -34,5 +34,6 @@ for t = T-1:-1:1
     beta(t,:) = beta(t,:)/sum( beta(t,:));
 end
 
-
+% Avoid getting NaN
+beta(isnan(beta))=GlobalSetting.REPLACE_NAN;
 end

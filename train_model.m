@@ -15,6 +15,8 @@ Ntrain=size(trainData,2);
 
 % The state of HMM model
 N = GlobalSetting.N;
+% Parameter dimension
+DIM = GlobalSetting.D;
 
 WORDS = GlobalSetting.WORDS;
 words_len = length(WORDS);
@@ -30,7 +32,7 @@ for i=1:words_len
 
     samples = trainData(idxes);
     % The number of pdf in each state
-    PDFS = repmat(13, 1, 8);
+    PDFS = repmat(DIM, 1, N);
     hmm{i}=train(samples,PDFS);
 
 end

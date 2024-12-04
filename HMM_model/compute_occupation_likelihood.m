@@ -35,6 +35,6 @@ for t = 1:T
     end
 end
 
-
-
+% Avoid getting NaN
+gama(isnan(gama))=GlobalSetting.REPLACE_NAN;
 end

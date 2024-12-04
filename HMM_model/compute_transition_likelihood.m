@@ -25,4 +25,6 @@ for t = 1:T-1
     end
 end
 
+% Avoid getting NaN
+ksai(isnan(ksai))=GlobalSetting.REPLACE_NAN;
 end
