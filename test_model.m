@@ -34,7 +34,6 @@ for i=1:Ndata
     true_word = data.word;
     % Compute MFCC coefficients
     mfccCoeff = mfccFeature(sampleData, sampleRate, D);
-    % mfccCoeff=mfccCoeff';
 
     % Recognize the word
     for j=1:words_len

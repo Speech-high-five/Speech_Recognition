@@ -39,14 +39,15 @@ for loop = 1:GlobalSetting.EPOCHS
     % Compute total output probability
     pout(loop)=0;
     for k = 1:K
-        pout(loop) = pout(loop) + viterbi(hmm, samples(k).data);
+        [viterbi_res, ~] = viterbi(hmm, samples(k).data);
+        pout(loop) = pout(loop) + viterbi_res;
     end
 
     fprintf('Sum of the output probabilities (log)=%d\n', pout(loop))
 
     % Compare the distance between two HMMs.
     if loop>1
-        if abs((pout(loop)-pout(loop-1))/pout(loop)) < 5e-6
+        if abs((pout(loop)-pout(loop-1))/pout(loop)) < 2e-5
             fprintf('The model converges!\n');
             return
         end
