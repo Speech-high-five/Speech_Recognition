@@ -41,4 +41,13 @@ i = D;
 meanData(:, i) = mean(mfccCoeff(:, k * (i - 1) + 1:end), 2);
 varianceData(:, i) = var(mfccCoeff(:, k * (i - 1) + 1:end), 0, 2);
 
+% Normalize the mean and variance
+meanData = normalizeMatrix(meanData);
+varianceData = normalizeMatrix(varianceData);
+
+% Regulate the variance
+% Regularization parameter
+epsilon = 1e-8;
+varianceData = regularizeCovariance(varianceData, epsilon);
+
 end

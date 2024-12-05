@@ -54,7 +54,7 @@ Ymax=1;
 axis([Xmin,Xmax,Ymin,Ymax]);
 
 % Set axis label 
-set(gca,'XTick',(0.2:0.2:Xmax));
+set(gca,'XTick',(Xmin:1:Xmax));
 set(gca,'YTick',(Ymin:0.2:Ymax));
 set(gca,'LooseInset',get(gca,'TightInset'));
 box off;

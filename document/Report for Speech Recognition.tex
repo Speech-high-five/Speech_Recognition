@@ -83,18 +83,71 @@ This report is structured as follows: \textit{Section 2} analyses the kinematics
 \section{MFCC acoustic features}
 
 
-\subsection{Model initialization}
+\section{Model initialization}
 
 
+\subsection{Paremeters of HMM initialization}
+Model initialization is a foundational step in training Hidden Markov Models (HMMs). The success of training algorithms like the Baum-Welch algorithm relies heavily on well-initialized model parameters. These parameters include the initial state probabilities $\pi$, the state transition probabilities $A$, and the observation probabilities $B$. Proper initialization provides a good starting point for optimization and helps avoid convergence to suboptimal solutions. 
 
-\subsection{Model initialization}
-Model initialization is a foundational step in training Hidden Markov Models (HMMs). The success of training algorithms like the Baum-Welch algorithm relies heavily on well-initialized model parameters. These parameters include the initial state probabilities $Pi$, the state transition probabilities $A$, and the observation probabilities $B$. Proper initialization provides a good starting point for optimization and helps avoid convergence to suboptimal solutions. 
+
+\paragraph{Initial State Probabilities $\Pi$:}
+	 $\Pi = [\pi_1, \pi_2, \dots, \pi_N]$ represents the probability of starting in each state  i , where  N  is the number of states.
+Here, initial $\Pi$ is provided in the assigment document:
+\begin{equation}
+\label{eqn:pi}
+\pi_i = \begin{bmatrix}
+ 	1 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+ \end{bmatrix}
+\end{equation}
+
+\paragraph{State Transition Probabilities $A$:}
+ $A = [a_{ij}]$  represents the probability of transitioning from state $i$ to state $j$, satisfying $\sum_{j=1}^N a_{ij} = 1$  for all $i$.
+Here, initial $A$ is provided in the assigment document:
+\begin{equation}
+\label{eqn:A}
+a_{ij} = \begin{bmatrix}
+ 	0.8 & 0.2 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ 	0 & 0.8 & 0.2 & 0 & 0 & 0 & 0 & 0 \\
+ 	0 & 0 & 0.8 & 0.2 & 0 & 0 & 0 & 0 \\
+ 	0 & 0 & 0 & 0.8 & 0.2 & 0 & 0 & 0 \\
+ 	0 & 0 & 0 & 0 & 0.8 & 0.2 & 0 & 0 \\
+ 	0 & 0 & 0 & 0 & 0 & 0.8 & 0.2 & 0 \\
+ 	0 & 0 & 0 & 0 & 0 & 0 & 0.8 & 0.2 \\
+ 	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0.8
+ \end{bmatrix}
+\end{equation}
+
+\paragraph{Observation Probabilities $B$:}
+ $B$ represents the probability of observing data given a state. For continuous observations, this is computed using a multivariate Gaussian probability density function $PDF$.
+ 
+ The observation probability for a given state $i$ and observation $x$ is defined as:
+\begin{equation}
+B_i(x) = \frac{1}{(2\pi)^{d/2} |\Sigma_i|^{1/2}} e^{-\frac{1}{2}(x - \mu_i)^T \Sigma_i^{-1} (x - \mu_i)}
+\end{equation}
+
+where:
+\begin{itemize}
+\item $\mu_i$ is the mean vector for state  i ,
+\item $\Sigma_i$ is the covariance matrix for state  i ,
+\item $d$ is the dimensionality of the observation vector.
+\end{itemize}
+
+In practice:
+\begin{itemize}
+\item $\mu_i$ can be initialized as the global mean of the observations.
+\item $\Sigma_i$ can be initialized as a diagonal matrix where diagonal entries are the variances of the clustered observations.
+\end{itemize}
 
 \subsection{Initializaton for Multivariate Gaussian pdf}
+In MMs with multivariate Gaussian probability density functions (PDFs), proper initialization of model parameters is critical for the success of the training process, particularly when using iterative algorithms like the Baum-Welch algorithm. Initialization provides the model with starting estimates for the emission probabilities, which are represented as Gaussian distributions, as well as the transition probabilities and initial state probabilities.
+
+The initialization of the multivariate Gaussian PDF involves estimating the mean vector $\mu$ and the covariance matrix $\Sigma$ for each state in the HMM. These parameters characterize the probability distribution of the observed data within each state.
 
 \subsubsection{Segments splitting for data}
+Divide the length of the trainning samples evenly into $N$ parts, where $N = 8$, representing the number of hidden states. This converts the training samples into an $8N\times13$matrix, facilitating the computation of the Multivariate Gaussian PDF.
 
 \subsubsection{Calculation for mean}
+
 
 \subsubsection{Calculation for variance}
 
