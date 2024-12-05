@@ -56,6 +56,8 @@ end
 epochs = GlobalSetting.EPOCHS;
 all_errors = zeros(epochs, 1);
 hmm_models = struct();
+lowest_error = 1;
+
 for loop = 1:epochs
     fprintf('Starting Epoch %d ... \n', loop)
     % Run training with different group data based on different word.
@@ -69,10 +71,10 @@ for loop = 1:epochs
         % The number of pdf in each state
         PDFS = repmat(D, 1, N);
         if loop == 1
-          hmm = init_hmm(samples, PDFS);
+            hmm = init_hmm(samples, PDFS);
         else
-          % update hmm model
-          hmm = hmm_models.(word);
+            % update hmm model
+            hmm = hmm_models.(word);
         end
         hmm_models.(word)=Baum_Welch(hmm, samples);
     end
@@ -105,6 +107,13 @@ for loop = 1:epochs
 
     fprintf('%d Epoch, The recognition error rate is %f\n', loop, errorRate)
 
+    % Update the best model if current error rate is lower than the best one
+    if errorRate <= lowest_error
+        lowest_error = errorRate;
+        best_hmm = hmm_models;
+        fprintf('New best model found: model of loop %d !\n', loop);
+    end
+
     % Convergence monitoring
     % Compare the distance between two HMMs.
     if loop>1
@@ -112,7 +121,7 @@ for loop = 1:epochs
         fprintf('Difference of the viterbi output = %d\n', difference);
         if  difference < 2e-5
             fprintf('The model converges!\n');
-            break
+            % break
         end
     end
 

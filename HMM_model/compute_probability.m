@@ -18,7 +18,8 @@ for j = 1:mix.M
     m = mix.mean(j,:);
     v = mix.var (j,:);
     w = mix.weight(j);
-    pdf = compute_pdf(m, v, x);
+    % pdf = compute_pdf(m, v, x);
+    pdf = compute_pdf_gm(m, v, x);
     prob = prob + w * pdf;
 end
 
