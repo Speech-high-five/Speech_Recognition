@@ -52,7 +52,7 @@ EEEM030 Group Assignment 2
 │   └── testMfccFeature.m
 ├── test_model.m                        # test model
 ├── train_model.m                       # train model
-└── voicebox                           # voicebox package
+└── voicebox                            # voicebox package
     ├── disteusq.m
     ├── kmeans.m
     ├── rnsubset.m

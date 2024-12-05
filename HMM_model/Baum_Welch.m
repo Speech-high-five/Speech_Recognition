@@ -47,7 +47,7 @@ end
 
 
 % Avoid getting NaN
-hmm.trans(isnan(hmm.trans))=0;
+hmm.trans(isnan(hmm.trans))=GlobalSetting.REPLACE_NAN;
 
 % Re-estimate the parameters of Gaussian mixture
 disp('Re-estimate the parameters of Gaussian mixture...')
@@ -79,7 +79,7 @@ for l = 1:N
             denom = denom + sum(tmp(:));
         end
         % Avoid that weight is NaN
-        if denom==0, weight=0; end
+        if denom==0, weight=GlobalSetting.REPLACE_NAN; end
         weight = nom/denom;
         % Avoid probabilities smaller than realmin
         weight = max(weight, realmin); 

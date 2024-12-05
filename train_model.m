@@ -45,7 +45,7 @@ for i=1:words_len
     % The number of pdf in each state
     PDFS = repmat(DIM, 1, N);
     hmm{i}=train(samples,PDFS);
-
+    
 end
 
 % % Convert cell array to struct

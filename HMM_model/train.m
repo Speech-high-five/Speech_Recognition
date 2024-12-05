@@ -1,4 +1,4 @@
-function [hmm, pout] = train(samples, M)
+function [hmm, all_errors] = train(samples, M)
 % TRAIN Summary of this function goes here
 %
 % [OUTPUTARGS] = TRAIN(INPUTARGS) Explain usage here
@@ -33,7 +33,7 @@ hmm = init_hmm(samples, M);
 % hmm = init_hmm_with_kmeans(samples, M);
 
 for loop = 1:GlobalSetting.EPOCHS
-    fprintf('Starting Epoch %d ...', loop)
+    fprintf('Starting Epoch %d ... \n', loop)
     hmm = Baum_Welch(hmm, samples);
 
     % Compute total output probability
@@ -43,7 +43,7 @@ for loop = 1:GlobalSetting.EPOCHS
         pout(loop) = pout(loop) + viterbi_res;
     end
 
-    fprintf('Sum of the output probabilities (log)=%d\n', pout(loop))
+    fprintf('Sum of the output probabilities (log)=%d\n', pout(loop));
 
     % Compare the distance between two HMMs.
     if loop>1
