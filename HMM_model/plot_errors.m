@@ -30,8 +30,8 @@ set(gca, 'Fontname', 'Times New Roman', 'Fontsize', 10);
 % Plot the amplitude spectrum of the original segment
 plot(epochs, errors, "Color", "#8C92AC", 'LineWidth',2);
 
-xlabel('Error rate');
-ylabel('Epoch');
+xlabel('Epoch');
+ylabel('Error rate');
 
 hold on;
 
@@ -43,6 +43,21 @@ titleStr = 'Error rate trend for the HMM model';
 title(titleStr, 'FontSize', 12);
 
 legend('Error rate curve', 'Error rate points');
+
+% Set the scale
+Xmin=1;
+Xmax=16;
+Ymin=0;
+Ymax=1;
+
+% Set maximum and minmum of X and Y
+axis([Xmin,Xmax,Ymin,Ymax]);
+
+% Set axis label 
+set(gca,'XTick',(0.2:0.2:Xmax));
+set(gca,'YTick',(Ymin:0.2:Ymax));
+set(gca,'LooseInset',get(gca,'TightInset'));
+box off;
 hold off;
 
 % Save graph
