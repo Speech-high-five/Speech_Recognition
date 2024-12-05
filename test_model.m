@@ -18,7 +18,9 @@ evaluationDataFile = GlobalSetting.EVALUATION_DATA;
 evaluationData = load(evaluationDataFile, 'evaluationData').evaluationData;
 
 % Load HMM model
-hmm_model = load(GlobalSetting.HMM_MODEL, 'hmm').hmm;
+model_num = 1;
+model_file = [GlobalSetting.HMM_MODEL, '/hmm_models_', num2str(model_num), '.mat'];
+hmm_model = load(model_file, 'hmm_models').hmm_models;
 WORDS = GlobalSetting.WORDS;
 words_len = length(WORDS);
 

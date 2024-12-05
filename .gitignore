@@ -166,6 +166,7 @@ cython_debug/
 data/EEEM030cw2-DevelopmentSet-2024/*
 data/EEEM030cw2-EvaluationSet-2024/*
 data/data_augmentation/*
+data/hmm_models/*
 !data/*.mat
 *.asv
 document/._wordcount_selection.tex

@@ -9,7 +9,7 @@ classdef GlobalSetting
         TRAIN_DATA = 'data/trainData.mat';
         TEST_DATA = 'data/testData.mat';
         EVALUATION_DATA = 'data/evaluationData.mat';
-        HMM_MODEL = 'data/hmm_models.mat'
+        HMM_MODEL = 'data/hmm_models'
         RECOGNITION_RESULT = 'data/recognition_result.mat'
         GRAPH_PATH = 'data/graphs'
         DATA_AUGMENTATION = 'data/data_augmentation'
@@ -18,7 +18,7 @@ classdef GlobalSetting
         WORDS = {'heed', 'hid', 'head', 'had', 'hard', 'hud', 'hod', 'hoard', 'hood', 'whod', 'heard'}
 
         % Epochs for training
-        EPOCHS = 1
+        EPOCHS = 15
 
         % HMM parameters
         % The state of HMM model

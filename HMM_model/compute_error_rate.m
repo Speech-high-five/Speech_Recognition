@@ -1,4 +1,4 @@
-function [outputArgs] = compute_error_rate(inputArgs)
+function [errorRate] = compute_error_rate(trueSequence, predictedSequence)
 % COMPUTE_ERROR_RATE Summary of this function goes here
 % 
 % [OUTPUTARGS] = COMPUTE_ERROR_RATE(INPUTARGS) Explain usage here
@@ -13,22 +13,26 @@ function [outputArgs] = compute_error_rate(inputArgs)
 % Date: 2024/12/04 20:56:48 
 % Revision: 0.1 
 
-
-
-% Example Ground Truth and Predicted Sequences
-trueSequence = [1, 2, 3, 4, 5];  % Ground truth labels
-predictedSequence = [1, 2, 2, 4, 5];  % Predicted labels by HMM
-
 % Calculate the number of mismatches
-numErrors = sum(trueSequence ~= predictedSequence);
+% Ensure the two cells are of the same size
+if length(trueSequence) ~= length(predictedSequence)
+  error('The two cells must have the same length for comparison.');
+end
+
+% Initialize mismatch counter
+numErrors = 0;
+
+% Loop through each element to compare
+for i = 1:length(trueSequence)
+  if ~strcmp(trueSequence{i}, predictedSequence{i})
+    numErrors = numErrors + 1;
+  end
+end
 
 % Calculate the total number of observations
 totalObservations = length(trueSequence);
 
 % Calculate error rate
 errorRate = numErrors / totalObservations;
-
-
-
 
 end

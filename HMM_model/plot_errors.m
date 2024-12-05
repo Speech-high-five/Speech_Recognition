@@ -1,4 +1,4 @@
-function plot_errors(errors, epochs, word)
+function plot_errors(epochs, errors)
 % PLOT_ERRORS Summary of this function goes here
 %
 % [OUTPUTARGS] = PLOT_ERRORS(INPUTARGS) Explain usage here
@@ -28,23 +28,25 @@ set(gcf, 'PaperPositionMode', 'auto');
 set(gca, 'Fontname', 'Times New Roman', 'Fontsize', 10);
 
 % Plot the amplitude spectrum of the original segment
-plot(epochs, errors, "Color", "#8C92AC");
+plot(epochs, errors, "Color", "#8C92AC", 'LineWidth',2);
 
 xlabel('Error rate');
 ylabel('Epoch');
+
+hold on;
 
 % Plot the formant frequencies points
 sz = 10;
 scatter(epochs, errors, sz, "filled", "o", "MarkerFaceColor", "b");
 
-titleStr = ['Error rate trend for the HMM model of ', word];
+titleStr = 'Error rate trend for the HMM model';
 title(titleStr, 'FontSize', 12);
 
 legend('Error rate curve', 'Error rate points');
 hold off;
 
 % Save graph
-graphName = ["Error_rate_trend_for_HMM_model_of_", word];
+graphName = "Error_rate_trend_for_HMM_model";
 
 saveDir = [GlobalSetting.GRAPH_PATH];
 if ~exist(saveDir, 'dir')
