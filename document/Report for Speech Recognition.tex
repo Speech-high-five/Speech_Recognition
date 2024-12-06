@@ -25,7 +25,7 @@ urlcolor=blue}
 \marginpar{\textsc{Todo}}
 \framebox{\begin{minipage}[c]{0.90 \textwidth}
 \tt \flushleft #1 \end{minipage}}\vspace{5 mm}\par}
-\newcommand{\setParDis}{\setlength {\parskip} {0.2cm} } % for 0.3cm spacing
+\newcommand{\setParDis}{\setlength {\parskip} {0.1cm} } % for 0.3cm spacing
 \newcommand{\setParDef}{\setlength {\parskip} {0pt} } % for 0 spacing
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -164,7 +164,7 @@ Before, explaining how the 13 MFCCs were extracted, it is vital to note that MFC
 \subsection{Audio Data Setup}
 
 
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \centering
   \subfloat[sp15a\_w02\_heed.mp3]{\includegraphics[width=0.32\textwidth]{audio1}\label{fig:female-segment-50ms}}
   \hfill
@@ -175,7 +175,7 @@ Before, explaining how the 13 MFCCs were extracted, it is vital to note that MFC
   \caption{\label{fig:audio} Audio Signals of sound samples from the Developmet data set.}
 \end{figure}
 
-As shown in Appendix B Code \ref{lst:shared_feature_extraction}, the MATLAB code begins by defining 30 speakers used in the development data set and listing their repeated eleven-word vocabulary collections: "heed, hid, head, had, hard, hud, hod, hoard, hood, whod, and heard". Resulting in the 330 audio files showcasing variations in vowel sounds, constants and language articulations, ideal for studying phonetic features, visually represented by figure \ref{fig:audio}.
+As shown in Appendix B Code \ref{lst:Develop_Set_Evaluation}, the MATLAB code begins by defining 30 speakers used in the development data set and listing their repeated eleven-word vocabulary collections: "heed, hid, head, had, hard, hud, hod, hoard, hood, whod, and heard". Resulting in the 330 audio files showcasing variations in vowel sounds, constants and language articulations, ideal for studying phonetic features, visually represented by figure \ref{fig:audio}.
 
 \paragraph{Note:} As shown in Appendix B, two \verb+for+ loops were used which generated filenames for all speaker-word combinations. Resulting in paths to all audio files, ensuring an organised dataset for subsequent processing. Each file followed the naming convention \verb+spXXa_wYY_word.mp3+, where: "XX" is the speaker index, "YY" is the word index, and "word" is the spoken terminology.
 
@@ -488,7 +488,7 @@ Given the complete observation sequence and model parameters, transition likelih
 
 \subsection{Re-estimation}
 
-Using the occupation and transition likelihoods that were previously determined, the re-estimation stage of the HMM (Baum-Welch algorithm) modifies the model parameters $\lambda = \{A, B, \pi\}$. The occupation likelihood at $t = 1$ is used to update the initial state probabilities $\pi$. To re-estimate the transition probabilities 𝐴, $\xi_t(i,j)$ and $\gamma_t(i)$ are used to calculate the ratio of expected transitions between states to total transitions from the source state. By using $\gamma_t(i)$ to compare observation occurrences in each state to total state occupations, the emission probabilities $B$ are updated. The new model $\gamma'$ formed by these modified parameters raises the likelihood $P(\mathcal{O}$ till convergence.
+Using the occupation and transition likelihoods that were previously determined, the re-estimation stage of the HMM (Baum-Welch algorithm) modifies the model parameters $\lambda = \{A, B, \pi\}$. The occupation likelihood at $t = 1$ is used to update the initial state probabilities $\pi$. To re-estimate the transition probabilities $A$, $\xi_t(i,j)$ and $\gamma_t(i)$ are used to calculate the ratio of expected transitions between states to total transitions from the source state. By using $\gamma_t(i)$ to compare observation occurrences in each state to total state occupations, the emission probabilities $B$ are updated. The new model $\gamma'$ formed by these modified parameters raises the likelihood $P(\mathcal{O}$ till convergence.
 
 
 
@@ -662,7 +662,7 @@ The coursework is effective in integrating theoretical concepts with practical a
 \appendix
 \section{Appendix: Structure of the codes}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \begin{center}
 \includegraphics[width=18cm]{codes_structure}
 \end{center}
@@ -1025,883 +1025,119 @@ end
 
 \end{lstlisting}
 
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={shared\_feature\_extraction.mlx}, label={lst:shared_feature_extraction}]
-  % FEATURE EXTRACTION // FEATURE EXTRACTION // FEATURE EXTRACTION // FEATURE EXTRACTION
-% Shared folder
-
-%Note switch these audios to analyse different signals
-% one as the training set and another as the test set
-[heed, fs_heed] = audioread('sp01a_w01_heed.mp3'); 
-[hid, fs_hid]  = audioread('sp01a_w02_hid.mp3');
-[head, fs_head]  = audioread('sp01a_w03_head.mp3');
-[had, fs_had]  = audioread('sp01a_w04_had.mp3');
-[hard, fs_hard]  = audioread('sp01a_w05_hard.mp3');
-[hud, fs_hud]  = audioread('sp01a_w06_hud.mp3');
-[hod, fs_hod]  = audioread('sp01a_w07_hod.mp3');
-[hoard, fs_hoard]  = audioread('sp01a_w08_hoard.mp3');
-[hood, fs_hood]  = audioread('sp01a_w09_hood.mp3');
-[whod, fs_whod]  = audioread('sp01a_w10_whod.mp3');
-[heard, fs_heard]  = audioread('sp01a_w11_heard.mp3');
-
-t1 = (0:length(heed)-1) / fs_heed; 
-t2 = (0:length(hid)-1) / fs_hid;  
-t3 = (0:length(head)-1) / fs_head; 
-t4 = (0:length(had)-1) / fs_had;
-t5 = (0:length(hard)-1) / fs_hard; 
-t6 = (0:length(hud)-1) / fs_hud;
-t7 = (0:length(hod)-1) / fs_hod; 
-t8 = (0:length(hoard)-1) / fs_hoard;
-t9 = (0:length(hood)-1) / fs_hood; 
-t10 = (0:length(whod)-1) / fs_whod;
-t11 = (0:length(heard)-1) / fs_heard; 
-
-
-% PLOT OF SIGNALS
-plot(t1, heed);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HEED');
-
-plot(t2, hid);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HID');
-
-plot(t3, head);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HEAD');
-
-plot(t4, had);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HAD');
- 
-plot(t5, hard);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HARD');
-
-plot(t6, hud);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HUD');
-
-plot(t7, hod);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HOD');
-
-plot(t8, hoard);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HOARD');
-
-plot(t9, hood);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HOOD');
-
-plot(t10, whod);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('WHOD');
-
-plot(t11, heard);  
-axis tight
-xlabel('Time (S)');
-ylabel('Amplitude');
-title('HEARD');
-
-
-
-% PARAMETERS
-frame_length_ms = 30;   % Frame length in ms
-hop_size_ms = 10;       % Hop size in ms
-num_mfcc_coeffs = 13;   % Number of MFCC coefficients (including zeroth)
-
-% Frame size and hop size in samples
-frame_length_samples = round(frame_length_ms / 1000 * fs_heed);  % Convert ms to samples
-hop_size_samples = round(hop_size_ms / 1000 * fs_heed);        % Convert ms to samples
-
-% Define a function for extracting MFCCs from a windowed frame
-extract_mfcc_from_frame = @(audio, fs, frame_length, hop_size, num_coeffs) ...
-    mfcc(audio, fs, 'Window', hamming(frame_length, 'periodic'), ...
-         'OverlapLength', frame_length - hop_size, 'NumCoeffs', num_coeffs);
-
-
-% Extract MFCCs for each audio file using frame-based processing
-mfcc_heed = extract_mfcc_from_frame(heed, fs_heed, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_hid = extract_mfcc_from_frame(hid, fs_hid, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_head = extract_mfcc_from_frame(head, fs_head, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_had = extract_mfcc_from_frame(had, fs_had, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_hard = extract_mfcc_from_frame(hard, fs_hard, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_hud = extract_mfcc_from_frame(hud, fs_hud, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_hod = extract_mfcc_from_frame(hod, fs_hod, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_hoard = extract_mfcc_from_frame(hoard, fs_hoard, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_hood = extract_mfcc_from_frame(hood, fs_hood, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_whod = extract_mfcc_from_frame(whod, fs_whod, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-mfcc_heard = extract_mfcc_from_frame(heard, fs_heard, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
-
-% DISPLAY THE MFCCs
-disp('MFCC for "heed":');
-disp(mfcc_heed);
-
-disp('MFCC for "hid":');
-disp(mfcc_hid);
-
-disp('MFCC for "head":');
-disp(mfcc_heed);
-
-disp('MFCC for "hid":');
-disp(mfcc_hid);
-
-disp('MFCC for "hard":');
-disp(mfcc_hard);
-
-disp('MFCC for "hud":');
-disp(mfcc_hud);
-
-disp('MFCC for "hod":');
-disp(mfcc_hod);
-
-disp('MFCC for "hoard":');
-disp(mfcc_hoard);
-
-disp('MFCC for "hood":');
-disp(mfcc_hood);
-
-disp('MFCC for "whod":');
-disp(mfcc_whod);
-
-disp('MFCC for "heard":');
-disp(mfcc_heard);
-
-
-% DISPLAY OF THE MFCC OF THE AUDIO SIGNALS - SPECTOGRAM
-imagesc(mfcc_heed');  % Transpose to display the frames on the x-axis
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "heed"');
-
-imagesc(mfcc_hid');  
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "hid"');
-
-imagesc(mfcc_head');  
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "head"');
-
-imagesc(mfcc_had'); 
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "had"');
-
-imagesc(mfcc_hard'); 
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "hard"');
-
-imagesc(mfcc_hud'); 
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "hud"');
-
-imagesc(mfcc_hod'); 
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "hod"');
-
-imagesc(mfcc_hoard');  
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "hoard"');
-
-imagesc(mfcc_hood');  
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "hood"');
-
-imagesc(mfcc_whod'); 
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "whod"');
-
-imagesc(mfcc_heard');  
-colorbar;
-xlabel('Frame');
-ylabel('MFCC Coefficients');
-title('MFCCs for "heard"');
-
-
-% PLAY THE AUDIOS WITH THEIR CORRESPONDING SAMPLE RATES
-sound(heed, fs_heed);  % Play 'heed'
-pause(length(heed)/fs_heed);
-sound(hid, fs_hid);  % Play 'hid'
-pause(length(hid)/fs_hid); 
-sound(head, fs_head); % PLay 'head'
-pause(length(head)/fs_head);  
-sound(had, fs_had);  % Play 'had'
-pause(length(had)/fs_had);
-sound(hard, fs_hard);  % Play 'hard'
-pause(length(hard)/fs_hard);
-sound(hud, fs_hud);  % Play 'hud'
-pause(length(hud)/fs_hud);
-sound(hod, fs_hod);  % Play 'hod'
-pause(length(hod)/fs_hod);
-sound(hoard, fs_hoard);  % Play 'hoard'
-pause(length(hoard)/fs_hoard);
-sound(hood, fs_hood);  % Play 'hood'
-pause(length(hood)/fs_hood);
-sound(whod, fs_whod);  % Play 'whod'
-pause(length(whod)/fs_whod);
-sound(heard, fs_heard);  % Play 'heard'
-pause(length(heard)/fs_heard);
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={Baum\_Welch.m}, label={lst:Baum_Welch}]
-  function [hmm] = Baum_Welch(hmm, samples)
-% BAUM_WELCH Summary of this function goes here
-%
-% [OUTPUTARGS] = BAUM_WELCH(INPUTARGS) Explain usage here
-%
-% Examples:
-%
-% Provide sample usage code here
-%
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey
-% Date: 2024/12/03 00:11:46
-% Revision: 0.1
-
-% Gaussian Mixture states
-mix = hmm.mix;
-% HMM states
-N = length(mix);
-% Number of samples
-K = length(samples);
-% Parameter dimension
-DIM = GlobalSetting.D;
-
-% Accumulate the Forward and Backward Likelihoods and  Occupation Likelihoods.
-for k = 1:K
-    likelihoods(k) = obtain_likelihoods(hmm, samples(k).data);
-end
-
-% Re-estimate transition probability matrix A 
-disp('Re-estimate transition probability matrix A...')
-for i = 1:N-1
-    denom = 0;
-    for k = 1:K
-        tmp   = likelihoods(k).ksai(:,i,:);
-        denom = denom + sum(tmp(:));
-    end
-    for j = i:i+1
-        nom = 0;
-        for k = 1:K
-            tmp = likelihoods(k).ksai(:,i,j);
-            nom = nom   + sum(tmp(:));
-        end
-        hmm.trans(i,j) = nom / denom;
-    end
-end
-
-
-% Avoid getting NaN
-hmm.trans(isnan(hmm.trans))=GlobalSetting.REPLACE_NAN;
-
-% Re-estimate the parameters of Gaussian mixture
-disp('Re-estimate the parameters of Gaussian mixture...')
-for l = 1:N
-    for j = 1:hmm.M(l)
-        % Compute mean and variance of pdf
-        nommean = zeros(1,DIM);
-        nomvar  = zeros(1,DIM);
-        denom   = 0;
-        for k = 1:K
-            T = size(samples(k).data,1);
-            for t = 1:T
-                x = samples(k).data(t,:);
-                nommean = nommean + likelihoods(k).gama(t,l,j) * x;
-                nomvar  = nomvar  + likelihoods(k).gama(t,l,j) * (x-mix(l).mean(j,:)).^2;
-                denom   = denom   + likelihoods(k).gama(t,l,j);
-            end
-        end
-        hmm.mix(l).mean(j,:) = nommean / denom;
-        hmm.mix(l).var (j,:) = nomvar  / denom;
-
-        % Compute the weight of pdf
-        nom   = 0;
-        denom = 0;
-        for k = 1:K
-            tmp = likelihoods(k).gama(:,l,j);
-            nom = nom + sum(tmp(:));
-            tmp = likelihoods(k).gama(:,l,:);
-            denom = denom + sum(tmp(:));
-        end
-        % Avoid that weight is NaN
-        if denom==0, weight=GlobalSetting.REPLACE_NAN; end
-        weight = nom/denom;
-        % Avoid probabilities smaller than realmin
-        weight = max(weight, realmin); 
-        hmm.mix(l).weight(j) = weight;
-    end
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_backward\_likelihood.m}, label={lst:compute_backward_likelihood}]
-  function [beta] = compute_backward_likelihood(T, N, c, mix, trans, observations)
-% COMPUTE_BACKWARD_LIKELIHOOD Summary of this function goes here
-% 
-% [OUTPUTARGS] = COMPUTE_BACKWARD_LIKELIHOOD(INPUTARGS) Explain usage here
-% 
-% Examples: 
-% 
-% Provide sample usage code here
-% 
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey 
-% Date: 2024/12/04 10:36:16 
-% Revision: 0.1 
-
-% Given the observation sequence O, calculate the backward probabilities beta.
-beta = zeros(T,N);
-
-% The backward probability at t = T and its normalization.
-for l = 1:N
-    beta(T,l) = c(T);
-end
-
-% The backward probabilities from t = T -1 to t = 1 and their normalization.
-for t = T-1:-1:1
-    x = observations(t+1,:);
-    for i = 1:N
-    	for j = 1:N
-    		beta(t,i) = beta(t,i) + beta(t+1,j) * compute_probability(mix(j),x) * trans(i,j);
-    	end
-    end
-    beta(t,:) = c(t) * beta(t,:);
-    % Scale the backward probabilities
-    beta(t,:) = beta(t,:)/sum( beta(t,:));
-end
-
-% Avoid getting NaN
-beta(isnan(beta))=GlobalSetting.REPLACE_NAN;
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_error\_rate.m}, label={lst:compute_error_rate}]
-  function [errorRate] = compute_error_rate(trueSequence, predictedSequence)
-% COMPUTE_ERROR_RATE Summary of this function goes here
-% 
-% [OUTPUTARGS] = COMPUTE_ERROR_RATE(INPUTARGS) Explain usage here
-% 
-% Examples: 
-% 
-% Provide sample usage code here
-% 
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey 
-% Date: 2024/12/04 20:56:48 
-% Revision: 0.1 
-
-% Calculate the number of mismatches
-% Ensure the two cells are of the same size
-if length(trueSequence) ~= length(predictedSequence)
-  error('The two cells must have the same length for comparison.');
-end
-
-% Initialize mismatch counter
-numErrors = 0;
-
-% Loop through each element to compare
-for i = 1:length(trueSequence)
-  if ~strcmp(trueSequence{i}, predictedSequence{i})
-    numErrors = numErrors + 1;
+\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={Develop\_Set\_Evaluation.mlx}, label={lst:Develop_Set_Evaluation}]
+
+  % Define the speaker numbers and words
+  speakers = 1:30;
+  words = {'heed', 'hid', 'head', 'had', 'hard', 'hud', 'hod', 'hoard', 'hood', 'whod', 'heard'};
+  
+  % Generate the audio file list using loops
+  audio_files = cell(1, length(speakers) * length(words));  % Preallocate cell array
+  index = 1;  % Initialize index for the audio_files array
+  
+  for speaker = speakers
+      for word_idx = 1:length(words)
+          % Create the filename for each combination of speaker and word
+          audio_files{index} = sprintf('sp%02da_w%02d_%s.mp3', speaker, word_idx, words{word_idx});
+          index = index + 1;  % Increment the index
+      end
   end
-end
-
-% Calculate the total number of observations
-totalObservations = length(trueSequence);
-
-% Calculate error rate
-errorRate = numErrors / totalObservations;
-
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_forward\_likelihood.m}, label={lst:compute_forward_likelihood}]
-  function [alpha, c] = compute_forward_likelihood(T, N, init, mix, trans, observations)
-% COMPUTE_FORWARD_LIKELIHOOD Summary of this function goes here
-% 
-% [OUTPUTARGS] = COMPUTE_FORWARD_LIKELIHOOD(INPUTARGS) Explain usage here
-% 
-% Examples: 
-% 
-% Provide sample usage code here
-% 
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey 
-% Date: 2024/12/04 10:36:02 
-% Revision: 0.1 
-
-% Given the observation sequence, calculate the forward probability.
-alpha = zeros(T,N);
-
-% The forward probability at t = 1.
-x = observations(1,:);
-for i = 1:N
-    alpha(1,i) = init(i) * compute_probability(mix(i),x);
-end
-
-% Initialize the forward probability for t = 1.
-c    = zeros(T,1);
-c(1) = 1/sum(alpha(1,:));
-alpha(1,:) = c(1) * alpha(1,:);
-
-% The forward probabilities and initialization for t = 2 to T.
-for t = 2:T
-    for i = 1:N
-        temp = 0;
-        for j = 1:N
-            temp = temp + alpha(t-1,j) * trans(j,i);
-        end
-        alpha(t,i) = temp * compute_probability(mix(i),observations(t,:));
-    end
-    % Scale the forward probabilities.
-    c(t) = 1/sum(alpha(t,:));
-    alpha(t,:) = c(t)*alpha(t,:);
-end
-
-% Avoid getting NaN
-c(isnan(c))=GlobalSetting.REPLACE_NAN;
-alpha(isnan(alpha))=GlobalSetting.REPLACE_NAN;
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_occupation\_likelihood.m}, label={lst:compute_occupation_likelihood}]
-  function [gama] = compute_occupation_likelihood(T, N, mix, hmm, observations, alpha, beta)
-% COMPUTE_OCCUPATION_LIKELIHOOD Summary of this function goes here
-% 
-% [OUTPUTARGS] = COMPUTE_OCCUPATION_LIKELIHOOD(INPUTARGS) Explain usage here
-% 
-% Examples: 
-% 
-% Provide sample usage code here
-% 
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey 
-% Date: 2024/12/04 10:36:37 
-% Revision: 0.1 
-
-% The mixture output probability: gama, i.e B.
-gama = zeros(T,N,max(hmm.M));
-for t = 1:T
-    pab = zeros(N,1);
-    for l = 1:N
-        pab(l) = alpha(t,l) * beta(t,l);
-    end
-    x = observations(t,:);
-    for l = 1:N
-        prob = zeros(mix(l).M,1);
-        for j = 1:mix(l).M
-            m = mix(l).mean(j,:);
-            v = mix(l).var (j,:);
-            prob(j) = mix(l).weight(j) * compute_pdf(m, v, x);
-        end
-        tmp  = pab(l)/sum(pab);
-        for j = 1:mix(l).M
-            gama(t,l,j) = tmp * prob(j)/sum(prob);
-        end
-    end
-end
-
-% Avoid getting NaN
-gama(isnan(gama))=GlobalSetting.REPLACE_NAN;
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_pdf\_gm.m}, label={lst:compute_pdf_gm}]
-  function [p] = compute_pdf_gm(m, v, x)
-% GET_PDF Summary of this function goes here
-%
-% [OUTPUTARGS] = GET_PDF(INPUTARGS) Explain usage here
-%
-% Examples:
-%
-% Provide sample usage code here
-%
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey
-% Date: 2024/12/03 00:35:32
-% Revision: 0.1
-
-% Regularization to prevent zero variances
-epsilon = 1e-8; % Small value to prevent numerical instability
-v = v + epsilon;
-
-% Dimension of the data
-D = length(v);
-
-% Check for consistency in dimensions
-if length(m) ~= D || length(x) ~= D
-    error('Mean, variance, and data point must have the same dimension.');
-end
-
-% Normalization factor
-norm_factor = (2 * pi) ^ (-D / 2) * prod(v .^ -0.5);
-
-% Compute the exponent
-diff = x - m;
-exponent = -0.5 * sum((diff .^ 2) ./ v);
-
-% Avoid overflow/underflow in exponential
-exponent = max(exponent, -700); % Prevent exp(-inf) (numerical limit of exp in MATLAB)
-
-% Compute the probability
-p = norm_factor * exp(exponent);
-
-% Avoid probabilities smaller than realmin
-p = max(p, realmin);
-
-% Avoid getting NaN
-if isnan(p), p=GlobalSetting.REPLACE_NAN; end
-
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_pdf.m}, label={lst:compute_pdf}]
-  function [p] = compute_pdf(m, v, x)
-% GET_PDF Summary of this function goes here
-%
-% [OUTPUTARGS] = GET_PDF(INPUTARGS) Explain usage here
-%
-% Examples:
-%
-% Provide sample usage code here
-%
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey
-% Date: 2024/12/03 00:35:32
-% Revision: 0.1
-
-p = (2 * pi * prod(v)) ^ -0.5 * exp(-0.5 * (x-m) ./ v * (x-m)');
-
-% Avoid getting NaN
-if isnan(p), p=GlobalSetting.REPLACE_NAN; end
-
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_probability.m}, label={lst:compute_probability}]
-  function [prob] = compute_probability(mix, x)
-% MIXTURE Summary of this function goes here
-%
-% [OUTPUTARGS] = MIXTURE(INPUTARGS) Explain usage here
-%
-% Examples:
-%
-% Provide sample usage code here
-%
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey
-% Date: 2024/12/03 00:30:05
-% Revision: 0.1
-
-prob = 0;
-for j = 1:mix.M
-    m = mix.mean(j,:);
-    v = mix.var (j,:);
-    w = mix.weight(j);
-    % pdf = compute_pdf(m, v, x);
-    pdf = compute_pdf_gm(m, v, x);
-    prob = prob + w * pdf;
-end
-
-% Add realmin to prevent overflow when calculating log(prob) in viterbi.m.
-if prob==0, prob=realmin; end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={compute\_transition\_likelihood.m}, label={lst:compute_transition_likelihood}]
-  function [ksai] = compute_transition_likelihood(T, N, c, mix, trans, observations, alpha, beta)
-% COMPUTE_TRANSITION_LIKELIHOOD Summary of this function goes here
-% 
-% [OUTPUTARGS] = COMPUTE_TRANSITION_LIKELIHOOD(INPUTARGS) Explain usage here
-% 
-% Examples: 
-% 
-% Provide sample usage code here
-% 
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey 
-% Date: 2024/12/04 10:37:05 
-% Revision: 0.1 
-
-% The transition probability ksai, i.e. A.
-ksai = zeros(T-1,N,N);
-for t = 1:T-1
-    denom = sum(alpha(t,:).*beta(t,:));
-    for i = 1:N-1
-    	for j = i:i+1
-    		nom = alpha(t,i) * trans(i,j) * compute_probability(mix(j),observations(t+1,:)) * beta(t+1,j);
-    		ksai(t,i,j) = c(t) * nom/denom;
-    	end
-    end
-end
-
-% Avoid getting NaN
-ksai(isnan(ksai))=GlobalSetting.REPLACE_NAN;
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={obtain\_likelihoods.m}, label={lst:obtain_likelihoods}]
-  function [likelihoods] = obtain_likelihoods(hmm, observations)
-% GET_PARAM Summary of this function goes here
-%
-% [OUTPUTARGS] = GET_PARAM(INPUTARGS) Explain usage here
-%
-% Examples:
-%
-% Provide sample usage code here
-%
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey
-% Date: 2024/12/03 00:33:41
-% Revision: 0.1
-
-% The length of sequence
-T = size(observations,1);
-% Initial Pi
-init  = hmm.init;
-% Initial A
-trans = hmm.trans;
-% Gaussian Mixture states
-mix   = hmm.mix;
-% HMM states
-N     = hmm.N;
-
-% Given the observation sequence, calculate the forward probability.
-[alpha, c] = compute_forward_likelihood(T, N, init, mix, trans, observations);
-
-% Given the observation sequence O, calculate the backward probabilities beta.
-[beta] = compute_backward_likelihood(T, N, c, mix, trans, observations);
-
-% The transition probability ksai, i.e. A.
-[ksai] = compute_transition_likelihood(T, N, c, mix, trans, observations, alpha, beta);
-
-% The mixture output probability: gama, i.e B.
-[gama] = compute_occupation_likelihood(T, N, mix, hmm, observations, alpha, beta);
-
-likelihoods.c     = c;
-likelihoods.alpha = alpha;
-likelihoods.beta  = beta;
-likelihoods.ksai  = ksai;
-likelihoods.gama  = gama;
-
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={plot\_errors.m}, label={lst:plot_errors}]
-  function plot_errors(epochs, errors)
-% PLOT_ERRORS Summary of this function goes here
-%
-% [OUTPUTARGS] = PLOT_ERRORS(INPUTARGS) Explain usage here
-%
-% Examples:
-%
-% Provide sample usage code here
-%
-% See also: List related files here
-
-% Author: Xiaoguang Liang, University of Surrey
-% Date: 2024/12/04 19:55:11
-% Revision: 0.1
-
-% Adjust the axes position for margins
-figure('Position', [100 100 800 500], 'Visible', 'off');
-
-% Get current axes
-ax = gca;
-% Position: [left, bottom, width, height]
-ax.Position = [0.1, 0.1, 0.8, 0.8];
-
-% Set the paper position mode
-set(gcf, 'PaperPositionMode', 'auto');
-
-% Set the font format of axis
-set(gca, 'Fontname', 'Times New Roman', 'Fontsize', 10);
-
-% Plot the amplitude spectrum of the original segment
-plot(epochs, errors, "Color", "#8C92AC", 'LineWidth',2);
-
-xlabel('Epoch');
-ylabel('Error rate');
-
-hold on;
-
-% Plot the formant frequencies points
-sz = 10;
-scatter(epochs, errors, sz, "filled", "o", "MarkerFaceColor", "b");
-
-titleStr = 'Error rate trend for the HMM model';
-title(titleStr, 'FontSize', 12);
-
-legend('Error rate curve', 'Error rate points');
-
-% Set the scale
-Xmin=1;
-Xmax=16;
-Ymin=0;
-Ymax=1;
-
-% Set maximum and minmum of X and Y
-axis([Xmin,Xmax,Ymin,Ymax]);
-
-% Set axis label 
-set(gca,'XTick',(Xmin:1:Xmax));
-set(gca,'YTick',(Ymin:0.2:Ymax));
-set(gca,'LooseInset',get(gca,'TightInset'));
-box off;
-hold off;
-
-% Save graph
-graphName = "Error_rate_trend_for_HMM_model";
-
-saveDir = [GlobalSetting.GRAPH_PATH];
-if ~exist(saveDir, 'dir')
-    % Create the new directory
-    mkdir(saveDir);
-end
-
-savePath = [saveDir, '/', graphName, '.png'];
-savePath = strjoin(savePath, '');
-
-% Save the figure as a PNG file with specified margins
-print(gcf, savePath, '-dpng', '-r300');  % '-r300' sets 300 DPI for high resolution
-
-
-% Close the invisible figure
-close(figure);
-
-end
-
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={viterbi.m}, label={lst:viterbi}]
-  function [p, q] = viterbi(hmm, O)
-% VITERBI Summary of this function goes here
-%
-% [OUTPUTARGS] = VITERBI(INPUTARGS) Explain usage here
-%
-% Examples:
-%
-% Provide sample usage code here
-%
-% See also: List related files here
-
-% Author: Xiaoguang Liang, Jaison Baptist Sequira, University of Surrey
-% Date: 2024/12/03 00:15:17
-% Revision: 0.1
-
-% Inital Pi
-init  = hmm.init;
-% Initial A
-trans = hmm.trans;
-% Gussian mix
-mix = hmm.mix;
-% HMM states
-N = hmm.N;
-% The number of samples
-T = size(O,1);
-
-% Process all the parameters with log scale
-
-% Compute log(init)
-ind1 = find(init>0);
-ind0 = find(init<=0);
-init(ind0) = -inf;
-init(ind1) = log(init(ind1));
-
-% Compute log(trans)
-ind1 = find(trans>0);
-ind0 = find(trans<=0);
-trans(ind0) = -inf;
-trans(ind1) = log(trans(ind1));
-
-% Initialize
-delta = zeros(T,N);
-phi   = zeros(T,N);
-q     = zeros(T,1);
-
-% t=1
-x = O(1,:);
-for i = 1:N
-    delta(1,i) = init(i) + log(compute_probability(mix(i),x));
-end
-
-% t=2:T
-for t = 2:T
-    for j = 1:N
-        [delta(t,j) phi(t,j)] = max(delta(t-1,:) + trans(:,j)');
-        x = O(t,:);
-        delta(t,j) = delta(t,j) + log(compute_probability(mix(j),x));
-    end
-end
-
-% The final value and the last node
-[p, q(T)] = max(delta(T,:));
-
-% Backtrack the best state path.
-for t=T-1:-1:1
-    q(t) = phi(t+1,q(t+1));
-end
-
-
-end
-
-
+  
+  
+  % Initialise variables to store MFCCs
+  num_files = length(audio_files);
+  mfccs = cell(num_files, 1);  % Cell array to hold the MFCCs for each audio file
+  
+  % PARAMETERS
+  frame_length_ms = 30;   % Frame length in ms
+  hop_size_ms = 10;       % Hop size in ms
+  num_mfcc_coeffs = 13;   % Number of MFCC coefficients (including zeroth)
+  
+  % Assuming the sampling rate is the same for all files, we read the first file to get fs
+  [example_audio, fs_example] = audioread(audio_files{1});
+  
+  % Frame size and hop size in samples
+  frame_length_samples = round(frame_length_ms / 1000 * fs_example);  % Convert ms to samples
+  hop_size_samples = round(hop_size_ms / 1000 * fs_example);        % Convert ms to samples
+  
+  % Define a function for extracting MFCCs from a windowed frame
+  extract_mfcc_from_frame = @(audio, fs, frame_length, hop_size, num_coeffs) ...
+      mfcc(audio, fs, 'Window', hamming(frame_length, 'periodic'), ...
+           'OverlapLength', frame_length - hop_size, 'NumCoeffs', num_coeffs);
+  
+  % Loop through the audio files and extract MFCCs for each one
+  for i = 1:num_files
+      [audio_data, fs] = audioread(audio_files{i});  % Read the current audio file
+      mfccs{i} = extract_mfcc_from_frame(audio_data, fs, frame_length_samples, hop_size_samples, num_mfcc_coeffs);
+  end
+  
+  % Now 'mfccs' contains the MFCC features for each audio file
+  
+  % Choose the file you want to display the MFCC for
+  file_index = 1;  % Change this to select a different file
+  
+  % Extract the MFCCs for the selected file
+  mfcc_data = mfccs{file_index};
+  
+  % PLOT MFCCs SPECTOGRAM-LIKE IMAGE
+  figure;
+  imagesc(mfcc_data');  % Transpose to make time on x-axis and MFCC coefficients on y-axis
+  colorbar;  % Display color bar to represent the magnitude of the MFCCs
+  xlabel('Frame index');
+  ylabel('MFCC coefficient index');
+  title(sprintf('MFCCs for file: %s', audio_files{file_index}));
+  axis tight;  % Adjust axis limits to fit the data (adjust axis for better readability)
+  
+  %PLOT THE AUDIO WAVEFORM
+  figure;
+  plot((1:length(audio_data))/fs, audio_data);  % Time vs. amplitude plot
+  xlabel('Time (s)');
+  ylabel('Amplitude');
+  title(sprintf('Waveform of file: %s', audio_files{file_index}));
+  
+  %PLOT THE SPECTOGRAM OF THE AUDIO SIGNAL
+  figure;
+  spectrogram(audio_data, hamming(frame_length_samples), frame_length_samples - hop_size_samples, 1024, fs, 'yaxis');
+  title(sprintf('Spectrogram of file: %s', audio_files{file_index}));
+  colorbar;
+  ylabel('Frequency (Hz)');
+  xlabel('Time (s)');
+  
+  %%MFCC COFFICENT EVOLUTION OVER TIME
+  figure;
+  plot(1:size(mfcc_data, 2), mfcc_data(1, :));  % Plot the 1st MFCC coefficient over time
+  xlabel('Frame index');
+  ylabel('MFCC Coefficient Value');
+  title(sprintf('Evolution of 1st MFCC coefficient for file: %s', audio_files{file_index}));
+  
+  %%COMPARISON OF MFFC FOR MULTIPLE FILES
+  figure;
+  subplot(2,1,1);  % First subplot for file 1
+  imagesc(mfccs{1}');
+  title('MFCCs for file 1');
+  colorbar;
+  
+  subplot(2,1,2);  % Second subplot for file 2
+  imagesc(mfccs{2}');
+  title('MFCCs for file 2');
+  colorbar;
+  
+  %HISTOGRAM OF MFCC COEFFICENTS
+  figure;
+  histogram(mfcc_data(1, :));  % Histogram of the 1st MFCC coefficient
+  xlabel('MFCC Value');
+  ylabel('Frequency');
+  title('Histogram of 1st MFCC coefficient');
+  
+  %%3D PLOT OF MFCC FEATURES
+  figure;
+  mesh(1:size(mfcc_data, 2), 1:3, mfcc_data(1:3, :));  % Plot 3 first MFCC coefficients
+  xlabel('Frame index');
+  ylabel('MFCC coefficient index');
+  zlabel('MFCC value');
+  title('3D plot of the first three MFCC coefficients');
+  
+  
 \end{lstlisting}
 
 \begin{lstlisting}[frame=single, numbers=left, style=Matlab-editor, caption={Gussian\_mix.m}, label={lst:Gussian_mix}]
