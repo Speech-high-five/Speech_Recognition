@@ -177,7 +177,7 @@ Before, explaining how the 13 MFCCs were extracted, it is vital to note that MFC
 
 As shown in Appendix B Code \ref{lst:shared_feature_extraction}, the MATLAB code begins by defining 30 speakers used in the development data set and listing their repeated eleven-word vocabulary collections: "heed, hid, head, had, hard, hud, hod, hoard, hood, whod, and heard". Resulting in the 330 audio files showcasing variations in vowel sounds, constants and language articulations, ideal for studying phonetic features, visually represented by figure \ref{fig:audio}.
 
-Note: As shown in Appendix B, two \verb+for+ loops were used which generated filenames for all speaker-word combinations. Resulting in paths to all audio files, ensuring an organised dataset for subsequent processing. Each file followed the naming convention \verb+spXXa_wYY_word.mp3+, where: "XX" is the speaker index, "YY" is the word index, and "word" is the spoken terminology.
+\paragraph{Note:} As shown in Appendix B, two \verb+for+ loops were used which generated filenames for all speaker-word combinations. Resulting in paths to all audio files, ensuring an organised dataset for subsequent processing. Each file followed the naming convention \verb+spXXa_wYY_word.mp3+, where: "XX" is the speaker index, "YY" is the word index, and "word" is the spoken terminology.
 
 \subsection{MFCC Extraction Process}
 
@@ -189,7 +189,7 @@ The process begins with segmenting the audio signals into overlapping frames, ea
 
 \subsubsection{Hamming Window for Spectral Analysis}
 
-Noye: A Hamming window was also applied to each frame to reduce spectral leakage caused by transitions and abrupt frame boundaries. This step was utilised to improve the accuracy of frequency domain analysis, ensuring that the extracted features are reliable and precise.
+\paragraph{Note:} A Hamming window was also applied to each frame to reduce spectral leakage caused by transitions and abrupt frame boundaries. This step was utilised to improve the accuracy of frequency domain analysis, ensuring that the extracted features are reliable and precise.
 
 \subsubsection{MFCC Calculation}
 
@@ -655,7 +655,7 @@ The coursework is effective in integrating theoretical concepts with practical a
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+% \newpage
 \appendix
 \section{Appendix: Structure of the codes}
 
