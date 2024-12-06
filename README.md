@@ -5,57 +5,58 @@ EEEM030 Group Assignment 2
 ## Structure of the code
 ```
 .
-├── HMM_model                           # HMM model
-│   ├── Baum_Welch.m                    # Baum-Welch algorithm
-│   ├── compute_backward_likelihood.m   # Compute backward likelihood
-│   ├── compute_forward_likelihood.m    # Compute forward likelihood
-│   ├── compute_occupation_likelihood.m # Compute occupation likelihood
-│   ├── compute_pdf.m                   # Compute pdf
-│   ├── compute_pdf_gm.m                # Compute pdf for Gaussian mixture
-│   ├── compute_probability.m           # Compute probability
-│   ├── compute_transition_likelihood.m # Compute transition likelihood
-│   ├── obtain_likelihoods.m            # Obtain likelihoods
-│   ├── train.m                         # Train HMMs
-│   └── viterbi.m                       # Viterbi algorithm
-├── README.md                           # Readme file
-├── compute_confusion_matrix.m          # Compute confusion matrix
+├── HMM_model                                       # HMM model
+│   ├── Baum_Welch.m                                # Baum-Welch algorithm
+│   ├── compute_backward_likelihood.m               # compute backward likelihood
+│   ├── compute_error_rate.m                        # compute error rate
+│   ├── compute_forward_likelihood.m                # compute forward likelihood
+│   ├── compute_occupation_likelihood.m             # compute occupation likelihood
+│   ├── compute_pdf.m                               # compute pdf
+│   ├── compute_pdf_gm.m                            # compute pdf of gaussian mixture model
+│   ├── compute_probability.m                       # compute probability
+│   ├── compute_transition_likelihood.m             # compute transition likelihood
+│   ├── obtain_likelihoods.m                        # obtain likelihoods
+│   ├── plot_errors.m                               # plot errors
+│   ├── speech.mlx
+│   └── viterbi.m                                   # viterbi algorithm
+├── README.md                                       # Readme file
+├── compute_confusion_matrix.m                      # compute confusion matrix
 ├── conf
-│   └── GlobalSetting.m                 # Global setting
-├── data
-│   ├── data_augmentation               # all data for data augmentation
-│   ├── evaluationData.mat              # evaluation data
+│   └── GlobalSetting.m                             # global setting
+├── data                                            # data
+│   ├── EEEM030cw2-DevelopmentSet-2024
+│   ├── EEEM030cw2-EvaluationSet-2024
+│   ├── data_augmentation
+│   ├── evaluationData.mat
 │   ├── graphs
-│   │   └── confusion_matrix.png        # confusion matrix graph
-│   ├── hmm_models.mat                  # HMM models
-│   ├── recognition_result.mat          # recognition result
-│   ├── testData.mat                    # test data
-│   └── trainData.mat                   # training data
-├── document                            # report
-│   ├── Report for Speech Recognition.tex
-│   └── bibliography
-├── feature_extraction                  # feature extraction code
-│   ├── mfccFeature.m                   # MFCC feature extraction
-│   └── shared_feature_extraction.mlx   # shared feature extraction
-├── model_initialization                # model initialization code
-│   ├── Gussian_mix.m                   # Gaussian mixture initialization
-│   ├── Gussian_mix_with_kmeans.m       # Gaussian mixture initialization with kmeans
-│   ├── init_hmm.m                      # HMM initialization
-│   ├── init_hmm_with_kmeans.m          # HMM initialization with kmeans
-│   ├── meanVariance.m                  # mean and variance calculation
-│   └── transitionProbability.m         # transition probability calculation
-├── preprocessing                       # data preprocessing
-│   ├── data_augmentation.m             # data augmentation
-│   ├── data_exploration.m              # data exploration
-│   └── make_train_evaluation_data.m    # make train and evaluation data
-├── test                                # test scripts
+│   │   ├── Error_rate_trend_for_HMM_model.png
+│   │   └── confusion_matrix.png
+│   ├── hmm_models
+│   ├── recognition_result.mat
+│   ├── testData.mat
+│   └── trainData.mat
+├── document                                         # Report
+│   ├── Enhanced Report.docx
+│   ├── Report for Speech Recognition.tex            # LaTeX source code
+│   ├── bibliography
+│   ├── refs.bib
+│   └── speech.docx
+├── feature_extraction
+│   ├── mfccFeature.m                                # MFCC feature extraction
+│   └── shared_feature_extraction.mlx                # Feature extraction shared function
+├── model_initialization                             # HMM model initialization
+│   ├── Gussian_mix.m                                # Gaussian mixture initialization
+│   ├── init_hmm.m                                   # HMM initialization
+│   ├── meanVariance.m                               # Mean and variance calculation
+│   ├── normalizeMatrix.m                            # Matrix normalization
+│   └── regularizeCovariance.m                       # Covariance regularization
+├── preprocessing                                    # Data preprocessing
+│   ├── data_augmentation.m                          # Data augmentation
+│   ├── data_exploration.m                           # Data exploration
+│   └── make_train_evaluation_data.m                 # Make train and evaluation data
+├── test                                             # Test
 │   ├── test.m
 │   └── testMfccFeature.m
-├── test_model.m                        # test model
-├── train_model.m                       # train model
-└── voicebox                            # voicebox package
-    ├── disteusq.m
-    ├── kmeans.m
-    ├── rnsubset.m
-    ├── voicebox.m
-    └── winenvar.m
+├── test_model.m                                     # Test model
+└── train_model.m                                    # Train model
 ```

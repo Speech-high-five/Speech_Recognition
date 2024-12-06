@@ -172,6 +172,6 @@ data/hmm_models/*
 document/._wordcount_selection.tex
 document/*.gz
 document/*.png
-document/*.pdf
+# document/*.pdf
 document/*.bbl
 document/graphics

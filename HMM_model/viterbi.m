@@ -9,7 +9,7 @@ function [p, q] = viterbi(hmm, O)
 %
 % See also: List related files here
 
-% Author: Xiaoguang Liang, University of Surrey
+% Author: Xiaoguang Liang, Jaison Baptist Sequira, University of Surrey
 % Date: 2024/12/03 00:15:17
 % Revision: 0.1
 
