@@ -13,6 +13,7 @@
 \usepackage{url,textcomp}
 \usepackage{matlab-prettifier}
 \usepackage{tabularx}
+\usepackage{float}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \hypersetup{colorlinks=true, linkcolor=blue,  anchorcolor=blue,
@@ -62,7 +63,7 @@ Report for Speech Recognition \\
 
 
 % Suppress any floats (figures, tables) from appearing on the next page
-\suppressfloats
+% \suppressfloats
 
 \tableofcontents
 
@@ -155,11 +156,11 @@ The contribution of members of our group is shown in Table \ref{table:report} an
 \section{Feature Extraction}
 
 \subsection{Significance of Feature Extraction in Speech Recognition}
-Feature extraction is an essential step in developing a speech recogniser system, as it transforms raw audio signals into a meaningful and compact interpretations that can be effectively processed by the speech recognition model.
+Feature extraction is an essential step in developing a speech recogniser system, as it transforms raw audio signals into a meaningful and compact interpretations that can be effectively processed by the speech recognition model \citep{1692543}.
 
-Therefore, this section of the report will provide an overview of the underlying principles, processes and parameters used to extract 13 MFCCs including the zeroth coefficient, from the development and evaluation audio files sets, while supplementing relevant images of key results.
+Therefore, this section of the report will provide an overview of the underlying principles, processes and parameters used to extract 13 MFCCs including the zeroth coefficient, from the development and evaluation audio files sets, while supplementing relevant images of key results \citep{1692543}.
 
-Before, explaining how the 13 MFCCs were extracted, it is vital to note that MFCC’s are widely regarded as the standard interpretation for speech recognition. This is because MFCC’s closely mimic the way the human ear process sound, by capturing the frequency spectrum of the audio signals on the Mel scale that closely aligns with the human auditory sensitivity to sound frequencies, while actively discarding irrelevant information such as pitch variations. Which works to retain essential phonetic features needed for distinguishing between speech sounds. 
+Before, explaining how the 13 MFCCs were extracted, it is vital to note that MFCC’s are widely regarded as the standard interpretation for speech recognition. This is because MFCC’s closely mimic the way the human ear process sound, by capturing the frequency spectrum of the audio signals on the Mel scale that closely aligns with the human auditory sensitivity to sound frequencies, while actively discarding irrelevant information such as pitch variations. Which works to retain essential phonetic features needed for distinguishing between speech sounds \citep{1692543}. 
 
 \subsection{Audio Data Setup}
 
@@ -219,7 +220,7 @@ By sourcing the length of the audio signal and plotting it against its linear am
 \caption{\label{fig:mfcc} MFCC spectrogram of sp01a\_w01\_heed.mp3.}
 \end{figure}
 
-After putting the original audio signal, through the MFCC process described in \textit{Section 1.3}, the corresponding MFCCs can be displayed in a spectrogram-like image (Figure \ref{fig:mfcc}). Where the x-axis represents the frame index (time), and the y-axis illustrates the MFCC coefficients and the colour intensity indicates the magnitude. This visualisation provides a view of how the audios spectral content evolves over time.
+After putting the original audio signal, through the MFCC process described in \textit{Section 2.3}, the corresponding MFCCs can be displayed in a spectrogram-like image (Figure \ref{fig:mfcc}). Where the x-axis represents the frame index (time), and the y-axis illustrates the MFCC coefficients and the colour intensity indicates the magnitude. This visualisation provides a view of how the audios spectral content evolves over time.
 
 
 \subsubsection{Spectrogram of the Audio Signal}
@@ -237,13 +238,15 @@ Additionally, another spectrogram (Figure \ref{fig:spectrogram}) can be made to 
 \subsubsection{Evolution of MFCC Coefficients}
 
 \begin{figure}[!h]
-\begin{center}
-\includegraphics[width=0.8\textwidth]{coefficient}
-\end{center}
-\caption{\label{fig:coefficient} Evolution of the first MFCC coefficent.}
-\end{figure}
+  \begin{center}
+  \includegraphics[width=0.8\textwidth]{coefficient}
+  \end{center}
+  \caption{\label{fig:coefficient} Evolution of the first MFCC coefficent.}
+  \end{figure}
 
 Moreover, the evolution (Figure \ref{fig:coefficient}) of the first MFCC coefficient can be plotted over time to highlight its dynamic behaviour across frames. This helps to emphasis the temporal variations in spectral content, which can be utilised when distinguishing between different speech sounds.
+
+
 
 
 \subsubsection{Histogram of MFCC Coefficients}
@@ -648,10 +651,13 @@ The confusion matrix serves to illustrate that the application of data augmentat
 
 \section{Conclusion}
 
-The coursework is effective in integrating theoretical concepts with practical applications, illustrating the capabilities and constraints of HMM-based speech recognition on both the provided datasets and user-recorded data. The project offers valuable insights into the effectiveness of maximum likelihood training and its impact on improving recognition accuracy through a detailed analysis of the results.
+This report highlights the application and evaluation of the Hidden Markov Models (HMMs) in speech recognition. By emphasising the usability of the Backward Algorithm’s role in probability computation as well as Forward and Viterbi algorithms, Group 1 was able to integrate theoretical speech recognition concepts with practical applications. Thus, illustrating the capabilities and constraints of HMM-based speech recognition with the provided speech data. The model’s performance had a varying degree of success and failure when recognising the 11-word vocabulary, with a 0\% predicted accuracy with had”, ”hard”, ”heed”, ”hod”, ”hud” and ”whod” , and a 100\% predicted accuracy with hid” and “hoard”. This was likely due to overfitting, suboptimal convergence, and limited data diversity. 
+
+To conclude, this project has offered valuable insights into the effectiveness of maximum likelihood training and its impact on improving speech recognition. Moreover, the use of data augmentation, of which targeted underrepresented speech patterns, showed promise in enhancing accuracy. This suggests value of further exploration into techniques like time stretching and pitch shifting. Therefore, for future work, when looking to improve results, the integration of diverse datasets, advanced augmentation, and optimised model parameters is recommended. This could potentially be done by combining HMMs with modern machine learning methods for thorough speech recognition.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \newpage
+\newpage
 \newcommand{\doi}[1]{DOI: \href{http://dx.doi.org/#1}{\nolinkurl{#1}}}
 \bibliographystyle{ieeetr}
 \bibliography{refs}
