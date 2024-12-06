@@ -520,6 +520,8 @@ By monitoring the optimal route to every state at every time step, the Viterbi a
 
 \subsection{Evaluation on the development set}
 
+Upon analyzing the data, the development set consists of 30 groups, each containing 11 samples representing the pronunciations of 11 words spoken by the same individual. The dataset includes three voice types: male, female, and children. Specifically, there are 14 groups of male voices, 15 groups of female voices, and 1 group of children’s voices. To ensure a balanced distribution of training and testing data across different voice types, the development set is split based on gender. Since there is only one group of children’s voices, it is included in the training set. The training set comprises 80\% of the development set.
+
 \paragraph{Recognition error rate:} This is the percentage of misclassified predictions in the test set compared to the ground truth. The formula for calculating the error rate is:
 \begin{equation}
 	Error Rate = \frac{Number of Incorrect Predictions}{Total Predictions}
@@ -598,6 +600,7 @@ From Figure \ref{fig:error-rate}, it can be seen that the error rates fluctuate 
 \subsection{Evaluation on the evaluation set}
 
 The evaluation is conducted on the evaluation set provided in the assignment. To ascertain the accuracy of the HMM model, the maximum cumulative likelihoods are initially calculated using the Viterbi algorithm. Subsequently, the accuracy is calculated based on the output of the Viterbi algorithm. The most optimal HMM model exhibits an accuracy of 0.318182 on the evaluation set. The equation for calculating accuracy is as follows:
+
 \begin{equation}
 	Accuracy = \frac{Number of Correct Predictions}{Total Predictions}
 \end{equation}
